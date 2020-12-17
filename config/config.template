@@ -1,0 +1,8 @@
+# Replace the manual token here for testing purposes and rename the file extension to toml.
+
+[canvas]
+protocol = 'https'
+url = 'canvas.oregonstate.edu'
+
+[secret]
+manual_token =  '<your token here>'
