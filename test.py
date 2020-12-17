@@ -12,12 +12,14 @@ test = Canvas('config/config.toml')
 # print("---Courses---")
 # print(test.get_courses())
 
+COURSE_ID = 1784184
+
 # print("---Assignments---")
-# print(test.get_assignments_in_course(1784184))
+# print(test.get_assignments_in_course(COURSE_ID))
 
 print("---Ungraded assignments---")
 print(test.get_assignments_in_course(
-    1784184,
+    COURSE_ID,
     # refer to https://canvas.instructure.com/doc/api/assignments.html#method.assignments_api.index for more info on what params/args we could pass
     params={
         'include': ['submission'],  # includes score
@@ -25,9 +27,10 @@ print(test.get_assignments_in_course(
         'order_by': 'due_at',  # possible values are position, name, and due_at
     }
 ))
+print('\n')
 
 print("---Assignments---")
-for assignment in test.get_assignments_in_course(1784184):
+for assignment in test.get_assignments_in_course(COURSE_ID):
     print(
         f"name: {assignment['name']}\n"
         f"id: {assignment['id']}\n"
@@ -35,20 +38,22 @@ for assignment in test.get_assignments_in_course(1784184):
         f"points_possible: {assignment['points_possible']}\n"
         # grade for int, score for float
         f"grade: {assignment['submission']['grade']}\n"
-        f"score: {assignment['submission']['score']}\n\n"
+        f"score: {assignment['submission']['score']}\n"
     )
+print('')
 
 print("---Assignment Groups---")
-for assignment_group in test.get_assignment_groups_in_course(1784184):
+for assignment_group in test.get_assignment_groups_in_course(COURSE_ID):
     print(
         f"name: {assignment_group['name']}\n"
         f"id: {assignment_group['id']}\n"
-        f"group_weight: {assignment_group['group_weight']}\n\n"
+        f"group_weight: {assignment_group['group_weight']}\n"
     )
+print('')
 
 # Looks like there can be more than one per class??
 print("---Grading Standard---")
-for gs in test.get_grading_standard_in_course(1784184):
+for gs in test.get_grading_standard_in_course(COURSE_ID):
     print(
         f"id: {gs['id']}\n"
         f"title: {gs['title']}\n"
