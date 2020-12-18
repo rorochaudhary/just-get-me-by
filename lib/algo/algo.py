@@ -1,6 +1,8 @@
 import math
 
-#Gets a target percent, a dictionary holding assignment name keys and data in a list   
+#returns an empty list on failure and the filled list on success
+#Gets a target percent, a dictionary holding assignment name keys with data in a list,
+# and a dictionary holding group id keys with the group weight and assignments in the group
 def algo(target, assignment_data, group_data) -> dict:
     target_percent = float(target)              #user's target grade
     weight_percent_remaining = float(100.00)    #percent that the user can still get
@@ -43,7 +45,8 @@ def algo(target, assignment_data, group_data) -> dict:
 
         #end condition of grade not possible
         if target_percent > weight_percent_remaining:
-            break
+            impossible = {}
+            return impossible
 
     #calculate the scores needed on assignments to get the target grade
     average_percent = float(target_percent / weight_percent_remaining)
@@ -52,13 +55,19 @@ def algo(target, assignment_data, group_data) -> dict:
         assignment_data[assignment][1] = math.ceil(assignment_data[assignment][2] * average_percent)
         target_percent -= assignment_data[assignment][1] / assignment_data[assignment][2] * assignment_weights[assignment]
 
+        #negative scores error handling
+        if assignment_data[assignment][1] < 0:
+            assignment_data[assignment][1] = 0
+
     #calculate last score
     final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
     assignment_data[final_assignment][1] = math.ceil(target_percent / assignment_weights[final_assignment] * assignment_data[final_assignment][2])
+    #negative scores error handling
+    if assignment_data[final_assignment][1] < 0:
+        assignment_data[final_assignment][1] = 0
 
     return assignment_data
 
-###Check result
 ###Hard coded test case
 assignment_data = {
     'A1': [1, 17, 20],
@@ -82,15 +91,23 @@ for key, value in results.items():
     print(key, value)
 print()
 
-#random testt case
-results = algo(87, assignment_data, group_data)
+#random test case
+results = algo(75, assignment_data, group_data)
 print('\n~RESULTS~')
-print('GOAL: 87')
+print('GOAL: 75')
 for key, value in results.items():
     print(key, value)
 print()
 
-#random testt case
+#random test case
+results = algo(34, assignment_data, group_data)
+print('\n~RESULTS~')
+print('GOAL: 34')
+for key, value in results.items():
+    print(key, value)
+print()
+
+#random test case
 results = algo(20, assignment_data, group_data)
 print('\n~RESULTS~')
 print('GOAL: 20')
