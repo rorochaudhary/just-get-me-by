@@ -1,0 +1,4 @@
+.mypy_cache/
+/config/config.toml
+/venv/
+__pycache__/
