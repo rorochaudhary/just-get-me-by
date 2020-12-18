@@ -1,6 +1,7 @@
 from lib.api.api import Canvas
 import re
 import toml
+from lib.algo.algo import algo
 
 # # Regex test
 # re_test_str = '''<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=1&per_page=10>; rel="current",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=2&per_page=10>; rel="next",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=1&per_page=10>; rel="first",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=2&per_page=10>; rel="last"'''
@@ -70,6 +71,7 @@ COURSE_ID = 1784009
 
 
 #Data structure to pass into algo
+target = 93
 assignment_dict = {}
 group_dict = {}
 assignment_data = test.get_assignments_in_course(COURSE_ID)
