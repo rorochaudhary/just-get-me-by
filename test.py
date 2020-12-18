@@ -68,10 +68,17 @@ COURSE_ID = 1784009
 #     )
 # print('')
 
+
+#Data structure to pass into algo
 assignment_dict = {}
 group_dict = {}
 assignment_data = test.get_assignments_in_course(COURSE_ID)
 group_data = test.get_assignment_groups_in_course(COURSE_ID)
+
+for group in group_data:
+    assignment_list = []
+    assignment_list.append(group['group_weight'])
+    group_dict[group['id']] = assignment_list
 
 for assignment in assignment_data:
     data_list = []
@@ -79,6 +86,5 @@ for assignment in assignment_data:
     data_list.append(assignment['points_possible'])
     assignment_dict[assignment['name']] = data_list
 
-#test the dictionary
-for entry in assignment_dict:
-    print(f"'{entry}': [{assignment_dict[entry][0]}, {assignment_dict[entry][1]}]")
+    #append assignment to group
+    group_dict[assignment['assignment_group_id']].append(assignment['name'])
