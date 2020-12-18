@@ -1,8 +1,10 @@
+import math
+
 #Gets a target percent, a dictionary holding assignment name keys and data in a list   
-def algo_main(target): #(target, assignment_data, group_data):
-    print('Hi there') ###confirm program start
+def algo(target): #(target, assignment_data, group_data):
     target_percent = float(target)
     weight_percent_remaining = float(100.00)
+    ungraded_assignments = []
 
     ###Hard coded test values
     assignment_data = {
@@ -19,10 +21,6 @@ def algo_main(target): #(target, assignment_data, group_data):
 		'3': [35, "final"]
 	}
 
-    #define the dict to hold ungraded assignments
-    ungraded_assignments = {}
-
-    ###start algorithm
     #for each assignment group
     for group_id in group_data:
         assignment_list = group_data[str(group_id)] #has the group weight and assignments
@@ -33,18 +31,16 @@ def algo_main(target): #(target, assignment_data, group_data):
         #iterate through the assignments
         for i in range(1, len(assignment_list)):
             assignment_info = assignment_data[str(assignment_list[i])]
+            max_points += assignment_info[2]
 
             #assignment is graded
             if assignment_info[0] == 1:
                 points += assignment_info[1]
                 used_max_points += assignment_info[2]
 
-            #assignment is not graded
+            #ungraded assignments
             else:
-                #add to 3rd dictionary
-                print('NOT GRADED')
-
-            max_points += assignment_info[2]
+                ungraded_assignments.append(assignment_list[i])
 
         #subtract used points if there were graded assignments in the group
         if used_max_points != 0:
@@ -55,9 +51,16 @@ def algo_main(target): #(target, assignment_data, group_data):
         if target_percent > weight_percent_remaining:
             break
 
+    #calculate the scores needed on assignments to get the target grade
+    average_percent = float(target_percent / weight_percent_remaining)
+    for i in range(0, len(ungraded_assignments) - 1):
+        assignment = ungraded_assignments[i]
+        assignment_data[assignment][1] = math.ceil(assignment_data[assignment][2] * average_percent)
 
-    print('Bye there') ###confirm program end
+    #calculate the last score
 
 
+    ###Check result
+    print(assignment_data)
 
-algo_main(93)
+algo(93)
