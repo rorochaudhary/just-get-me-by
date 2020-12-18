@@ -6,7 +6,7 @@ sg.theme('DarkAmber')
 
 # main/opening window layout
 layout = [  
-            [sg.Text('Hello! Let\'s get you by. First we need a few things.')],
+            [sg.Text('Hello! Let\'s get you by. First we need a couple things.')],
             [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(key="canvasURL")],
             [sg.Text('Your Canvas Token:'), sg.InputText(key='token')],
             [sg.Button('Ok'), sg.Cancel(), sg.Button("How to get a Token")]
@@ -71,7 +71,7 @@ while True:
             if calc_event in (sg.WIN_CLOSED, 'Cancel'):
                 break
             if calc_event in ('Just Get Me By'):
-                # pop up showing calculator results? or manipulate current window?
+                # pop up showing calculator results? or manipulate/add to current window?
                 break
 
         calc_window.close()
