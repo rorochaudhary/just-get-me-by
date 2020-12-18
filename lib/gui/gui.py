@@ -1,6 +1,4 @@
-# main logic for Just Get Me By that integrates algo.py, api.py, and gui.py
-
-# LOW PRIORITY - add PyInstaller to to make .exe without user Python requirement
+# add PyInstaller to run gui on windows without user Python requirement
 import PySimpleGUI as sg
 
 # change theme string
