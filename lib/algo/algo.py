@@ -23,7 +23,7 @@ def algo_main(target): #(target, assignment_data, group_data):
     ungraded_assignments = {}
 
     ###start algorithm
-    #for each assignment grou[]
+    #for each assignment group
     for group_id in group_data:
         assignment_list = group_data[str(group_id)] #has the group weight and assignments
         points = 0              #points user has from used_max_points
@@ -32,13 +32,28 @@ def algo_main(target): #(target, assignment_data, group_data):
 
         #iterate through the assignments
         for i in range(1, len(assignment_list)):
+            assignment_info = assignment_data[str(assignment_list[i])]
+
             #assignment is graded
-            if assignment_data[str(assignment_list[i])][0] == 1:
-                print('GRADED')
+            if assignment_info[0] == 1:
+                points += assignment_info[1]
+                used_max_points += assignment_info[2]
 
             #assignment is not graded
             else:
+                #add to 3rd dictionary
                 print('NOT GRADED')
+
+            max_points += assignment_info[2]
+
+        #subtract used points if there were graded assignments in the group
+        if used_max_points != 0:
+            target_percent -= (points / used_max_points) * (used_max_points / max_points * assignment_list[0])
+            weight_percent_remaining -= (used_max_points / max_points * assignment_list[0])
+
+        #end condition of grade not possible
+        if target_percent > weight_percent_remaining:
+            break
 
 
     print('Bye there') ###confirm program end
