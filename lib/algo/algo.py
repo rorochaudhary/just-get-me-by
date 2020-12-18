@@ -50,9 +50,12 @@ def algo(target, assignment_data, group_data) -> dict:
     for i in range(0, len(ungraded_assignments) - 1):
         assignment = ungraded_assignments[i]
         assignment_data[assignment][1] = math.ceil(assignment_data[assignment][2] * average_percent)
+        target_percent -= assignment_data[assignment][1] / assignment_data[assignment][2] * assignment_weights[assignment]
 
     #calculate last score
-        
+    final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
+    print(final_assignment)
+    assignment_data[final_assignment][1] = math.ceil(target_percent / assignment_weights[final_assignment] * assignment_data[final_assignment][2])
 
     return assignment_data
 
