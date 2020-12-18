@@ -54,7 +54,6 @@ def algo(target, assignment_data, group_data) -> dict:
 
     #calculate last score
     final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
-    print(final_assignment)
     assignment_data[final_assignment][1] = math.ceil(target_percent / assignment_weights[final_assignment] * assignment_data[final_assignment][2])
 
     return assignment_data
@@ -75,8 +74,26 @@ group_data = {
     '3': [35, "final"]
 }
 
+#Written test case
 results = algo(93, assignment_data, group_data)
 print('\n~RESULTS~')
+print('GOAL: 93')
+for key, value in results.items():
+    print(key, value)
+print()
+
+#random testt case
+results = algo(87, assignment_data, group_data)
+print('\n~RESULTS~')
+print('GOAL: 87')
+for key, value in results.items():
+    print(key, value)
+print()
+
+#random testt case
+results = algo(20, assignment_data, group_data)
+print('\n~RESULTS~')
+print('GOAL: 20')
 for key, value in results.items():
     print(key, value)
 print()
