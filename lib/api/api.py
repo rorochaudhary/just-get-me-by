@@ -1,20 +1,17 @@
 import re
 import requests
-import toml
 
 
 class Canvas:
-    def __init__(self, config_file: str):
+    def __init__(self, url: str, token: str):
         """Interface to Canvas API."""
-        self.cfg: dict = toml.load(config_file)
-        # self.token = self.get_access_token()
-        self.token: str = self.cfg['secret']['manual_token']
         self.version: str = 'v1'
-        self.base_url: str = self._get_base_url()
-        self.std_headers: dict = self._get_std_headers()
+        self.base_url: str = self._get_base_url(url)
+        self.std_headers: dict = self._get_std_headers(token)
 
     def get_access_token(self):
-        """TODO: to be implemented"""
+        """Requests an access token on behalf of the user."""
+        # TODO: to be implemented
         pass
 
     def get_courses(self) -> list:
@@ -56,15 +53,13 @@ class Canvas:
         # There's only one page for this.
         return res.json()
 
-    def _get_base_url(self) -> str:
+    def _get_base_url(self, url: str) -> str:
         """Returns the base url to be used in API requests."""
-        proto: str = self.cfg['canvas']['protocol']
-        url: str = self.cfg['canvas']['url']
-        return f'{proto}://{url}/api'
+        return f'{url}/api'
 
-    def _get_std_headers(self) -> dict:
+    def _get_std_headers(self, token: str) -> dict:
         """Returns the standard headers to be used for most API requests."""
-        return {'Authorization': f'Bearer {self.token}'}
+        return {'Authorization': f'Bearer {token}'}
 
     def _get_all_pages(self, res: object) -> list:
         """Returns a list consisting of data from all the pages.
@@ -80,6 +75,8 @@ class Canvas:
                     '<([^>]+)>; rel="next"', res.headers['Link']).group(1)
                 res = requests.get(next_url, headers=self.std_headers)
                 data += res.json()
-            except AttributeError:
-                break  # next page not found
+            except AttributeError:  # next page not found
+                break
+            except KeyError:  # headers doesn't contain Link
+                break
         return data

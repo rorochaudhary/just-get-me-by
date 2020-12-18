@@ -1,5 +1,6 @@
 from lib.api.api import Canvas
 import re
+import toml
 
 # # Regex test
 # re_test_str = '''<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=1&per_page=10>; rel="current",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=2&per_page=10>; rel="next",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=1&per_page=10>; rel="first",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=2&per_page=10>; rel="last"'''
@@ -7,12 +8,18 @@ import re
 # print(re.search(pattern, re_test_str).group(1))
 
 # # Canvas API test
-test = Canvas('config/config.toml')
+my_token = toml.load('config/config.toml')['secret']['manual_token']
+test = Canvas('https://canvas.oregonstate.edu', my_token)
 
 # print("---Courses---")
-# print(test.get_courses())
+# for course in test.get_courses():
+#     print(
+#         f"id: {course['id']}\n"
+#         f"name: {course['name']}\n"
+#     )
+# print('')
 
-COURSE_ID = 1784184
+COURSE_ID = 1825740
 
 # print("---Assignments---")
 # print(test.get_assignments_in_course(COURSE_ID))
