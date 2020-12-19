@@ -3,8 +3,8 @@ import PySimpleGUI as sg
 def get_main_layout() -> list:
     return [
         [sg.Text('Hello! Let\'s get you by. First we need a couple things.')],
-        [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(key="canvasURL")],
-        [sg.Text('Your Canvas Token:'), sg.InputText(key='token')],
+        [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(util.search_url()[0], key="canvasURL")],
+        [sg.Text('Your Canvas Token:'), sg.InputText(util.search_token()[0], key='token')],
         [sg.Button('Ok'), sg.Cancel(), sg.Button("How to get a Token")]
     ]
 
