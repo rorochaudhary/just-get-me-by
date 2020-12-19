@@ -134,7 +134,7 @@ while True:
                 calc_layout += [grade_list[i] for i in range(len(grade_list))],
 
                 # select target grade and execute grade calc
-                calc_layout += [sg.Text('Target Grade?'), sg.Combo(["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"], size=(3, 1))],
+                calc_layout += [sg.Text('Target Grade?'), sg.InputText(size=(10, 1))],
                 calc_layout += [sg.Button('Just Get Me By'), sg.Cancel()],
 
                 # display assignments
@@ -156,8 +156,7 @@ while True:
                     if calc_event in (sg.WIN_CLOSED, 'Cancel'):
                         break
                     if calc_event in ('Just Get Me By'):
-                        print(util.get_target_percentage(calc_values[0], grade_scale))  # TODO: remove later
-                        target_score = util.get_target_percentage(calc_values[0], grade_scale)
+                        target_score = util.input_to_float(calc_values[0])
 
                         # call algo
                         results_str = ""
@@ -165,7 +164,7 @@ while True:
                         print(results)
                         for key, value in results.items():
                             results_str += f'{key} = {value[0]} out of {value[1]}\n'
-                        
+
                         # display algo results
                         print(calc_values)
                         calc_window['algo_result'].update(results_str)
