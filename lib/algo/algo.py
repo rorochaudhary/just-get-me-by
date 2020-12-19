@@ -14,7 +14,7 @@ def algo(target, assignment_data, group_data) -> dict:
 
     #for each assignment group
     for group_id in group_data:
-        assignment_list = group_data[str(group_id)] #has the group weight and assignments
+        assignment_list = group_data[group_id] #has the group weight and assignments
         group_weight = assignment_list[0]           #weight of the group
         points = 0                                  #points user has from used_max_points
         used_max_points = 0                         #max points the user can have currently
