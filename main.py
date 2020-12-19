@@ -159,11 +159,12 @@ while True:
                         display_grade_scale = True
 
                 if display_grade_scale is True:
+                    print(f'grade scale:{grade_scale}')
                     # display grading scale
                     calc_layout += [sg.Text('Your course\'s current grade scale:')],
                     grade_list = []
                     for obj in grade_scale:
-                        grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
+                        grade_list.append(sg.Text('{} = {:0.2f}'.format(obj["name"], obj["value"] * 100.00)))
                     calc_layout += [grade_list[i] for i in range(len(grade_list))],
 
                 # select target grade and execute grade calc
