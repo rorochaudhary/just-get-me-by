@@ -1,13 +1,14 @@
 # main logic for Just Get Me By that integrates algo.py, api.py, and gui.py
 from lib.algo.algo import algo
 from lib.api.api import Canvas
+import re
 import PySimpleGUI as sg
 # LOW PRIORITY - add PyInstaller to to make .exe without user Python requirement
 
 sg.theme('DarkAmber')
 
 # main/opening window layout
-layout = [  
+layout = [
             [sg.Text('Hello! Let\'s get you by. First we need a couple things.')],
             [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(key="canvasURL")],
             [sg.Text('Your Canvas Token:'), sg.InputText(key='token')],
@@ -18,7 +19,7 @@ layout = [
 window = sg.Window('Just Get Me By', layout)
 
 # Main Event Loop to process "events"
-while True:             
+while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Cancel'):
         break
@@ -34,13 +35,15 @@ while True:
                         "6. Copy/Paste the Token (including the leading number and ~ sign) into the Your Canvas Token field and you're done!\n\n" + \
                         "Screenshots of token generation are available at the GitHub repo - https://github.com/rorochaudhary/just-get-me-by"
         sg.popup_scrolled(get_token_txt, title="Getting a User Token")
-    
+
     # -------Select Course Window (within mainloop)-------------
     if event in ('Ok'):
         req_items = values
-        req_items['canvasURL'] = 'https://' + req_items['canvasURL'] # right place to format protocol??
+        # Add https:// to url if protocol not found.
+        proto = 'https://' if re.search('[^:]+://', req_items['canvasURL']) is None else ''
+        req_items['canvasURL'] = proto + req_items['canvasURL'] # right place to format protocol??
         print("req_items:", req_items)
-        
+
         # get Canvas information
         requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
         courses = requestAPI.get_courses()
@@ -80,7 +83,7 @@ while True:
                 calc_layout = [
                     [sg.Text('Your Canvas course:')]
                 ]
-                
+
                 # display assignments
                 for i in range(0, 6):
                     calc_layout += [sg.Text(f'assignment {i} here'), sg.Text(f'score {i} here'), sg.Text(f'total {i} here')],
