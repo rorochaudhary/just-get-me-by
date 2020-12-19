@@ -160,12 +160,15 @@ while True:
                         target_score = util.get_target_percentage(calc_values[0], grade_scale)
 
                         # call algo
+                        results_str = ""
                         results = algo(target_score, assignment_dict, group_dict)
                         print(results)
-
+                        for key, value in results.items():
+                            results_str += f'{key} = {value[0]} out of {value[1]}\n'
+                        
                         # display algo results
                         print(calc_values)
-                        calc_window['algo_result'].update(results)
+                        calc_window['algo_result'].update(results_str)
 
                 calc_window.close()
         course_window.close()
