@@ -88,7 +88,7 @@ while True:
                 assignment_data = requestAPI.get_assignments_in_course(course_id)
                 group_data = requestAPI.get_assignment_groups_in_course(course_id)
                 raw_grade_standard = requestAPI.get_grading_standard_in_course(course_id)
-                grade_scale = raw_grade_standard[0]['grading_scheme']
+
                 assignment_dict = {}
                 group_dict = {}
                 # grade_standard = {}
@@ -118,7 +118,7 @@ while True:
                 # print(f"assignment dict:\n{assignment_dict}")
 
                 # process grade_standard to get users target
-                print(grade_scale)
+                # print(grade_scale)
 
                 # ---------Grade Calculator Window (within Select Course loop)------------
                 # layout based on results
@@ -126,12 +126,18 @@ while True:
                     [sg.Text(f'Course: {course_chosen}')]
                 ]
 
-                # display grading scale
-                calc_layout += [sg.Text('Your course\'s current grade scale:')],
-                grade_list = []
-                for obj in grade_scale:
-                    grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
-                calc_layout += [grade_list[i] for i in range(len(grade_list))],
+                if len(raw_grade_standard) > 0:
+                    if len(raw_grade_standard) == 1:
+                        grade_scale = raw_grade_standard[0]['grading_scheme']
+                    elif len(raw_grade_standard) > 1:
+                        # TODO: replace the below and implement popup to choose which grade scheme to use
+                        grade_scale = raw_grade_standard[0]['grading_scheme']
+                    # display grading scale
+                    calc_layout += [sg.Text('Your course\'s current grade scale:')],
+                    grade_list = []
+                    for obj in grade_scale:
+                        grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
+                    calc_layout += [grade_list[i] for i in range(len(grade_list))],
 
                 # select target grade and execute grade calc
                 calc_layout += [sg.Text('Target Grade?'), sg.InputText(size=(10, 1))],
