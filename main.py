@@ -1,6 +1,7 @@
 # main logic for Just Get Me By that integrates algo.py, api.py, and gui.py
 from lib.algo.algo import algo
 from lib.api.api import Canvas
+import lib.gui.gui as gui
 import lib.util as util
 import re
 import PySimpleGUI as sg
@@ -126,12 +127,18 @@ while True:
                     [sg.Text(f'Course: {course_chosen}')]
                 ]
 
-                if len(raw_grade_standard) > 0:
-                    if len(raw_grade_standard) == 1:
-                        grade_scale = raw_grade_standard[0]['grading_scheme']
-                    elif len(raw_grade_standard) > 1:
-                        # TODO: replace the below and implement popup to choose which grade scheme to use
-                        grade_scale = raw_grade_standard[0]['grading_scheme']
+                display_grade_scale = False
+                if len(raw_grade_standard) == 1:
+                    grade_scale = raw_grade_standard[0]['grading_scheme']
+                    display_grade_scale = True
+                elif len(raw_grade_standard) > 1:
+                    selected_gstd = gui.grade_standard_selection(raw_grade_standard)
+                    if len(selected_gstd) == 0:  # empty list returned if canceled
+                        display_grade_scale = False
+                    grade_scale = selected_gstd['grading_scheme']
+                    display_grade_scale = True
+
+                if display_grade_scale is True:
                     # display grading scale
                     calc_layout += [sg.Text('Your course\'s current grade scale:')],
                     grade_list = []
