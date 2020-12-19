@@ -1,6 +1,7 @@
 # main logic for Just Get Me By that integrates algo.py, api.py, and gui.py
 from lib.algo.algo import algo
 from lib.api.api import Canvas
+import lib.util as util
 import re
 import PySimpleGUI as sg
 # LOW PRIORITY - add PyInstaller to to make .exe without user Python requirement
@@ -71,7 +72,7 @@ while True:
                 break
             if course_event in ('Select'):
                 # print('user chose:', course_values['selected_course'][0])
-                course_chosen = course_values['selected_course'][0] 
+                course_chosen = course_values['selected_course'][0]
                 # get selected course id
                 course_id = 0
                 for i in range(len(course_names)):
@@ -110,7 +111,7 @@ while True:
 
                         # append assignment to group
                         group_dict[assignment['assignment_group_id']].append(assignment['name'])
-                        
+
                 print(f"assignment dict:\n{assignment_dict}")
 
                 # process grade_standard to get users target
@@ -128,7 +129,7 @@ while True:
                 for obj in grade_scale:
                     grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
                 calc_layout += [grade_list[i] for i in range(len(grade_list))],
-                
+
                 # select target grade and execute grade calc
                 calc_layout += [sg.Text('Target Grade?'), sg.Combo(["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"], size=(3, 1))],
                 calc_layout += [sg.Button('Just Get Me By'), sg.Cancel()],
@@ -157,6 +158,7 @@ while True:
                     if calc_event in (sg.WIN_CLOSED, 'Cancel'):
                         break
                     if calc_event in ('Just Get Me By'):
+                        print(util.get_target_percentage(calc_values[0], grade_scale))  # TODO: remove later
                         # pop up showing calculator results? or manipulate/add to current window?
                         break
 
