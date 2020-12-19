@@ -144,9 +144,8 @@ while True:
                     assignments_str += f'{key} = {val[0]} out of {val[1]}\n'
                 # print(assignments_str)
                 calc_layout += [sg.Multiline(assignments_str, size=(45, 10))],
-
                 calc_layout += [sg.Text('Your target scores needed:')],
-                calc_layout += [sg.Multiline(size=(45, 12), key='algo_result')],
+                calc_layout += [sg.Multiline(size=(45, 10), key='algo_result')],
 
                 # display window
                 calc_window = sg.Window('Grade Calculator', calc_layout, finalize=True)
