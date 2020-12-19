@@ -4,6 +4,7 @@ from lib.api.api import Canvas
 import lib.gui.gui as gui
 import lib.util as util
 import re
+import traceback
 import PySimpleGUI as sg
 # LOW PRIORITY - add PyInstaller to to make .exe without user Python requirement
 
@@ -12,6 +13,8 @@ sg.theme('DarkAmber')
 
 # main window creation
 layout = gui.get_main_layout()
+
+# Create the Window
 window = sg.Window('Just Get Me By', layout)
 
 # Main Event Loop to process "events"

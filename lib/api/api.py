@@ -80,3 +80,4 @@ class Canvas:
             except KeyError:  # headers doesn't contain Link
                 break
         return data
+
