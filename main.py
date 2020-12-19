@@ -89,8 +89,6 @@ while True:
                             print(results)
                             for key, value in results.items():
                                 results_str += f'{key} = {value[0]} out of {value[1]}\n'
-                            # display algo results
-                            print(calc_values)
                         calc_window['algo_result'].update(results_str)
 
                 calc_window.close()
