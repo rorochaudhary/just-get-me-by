@@ -36,14 +36,21 @@ def search_token() -> str:
     except:
         return "Your Token", False
 
-def config_token(token: str) -> bool:
+def search_url() -> str:
+    """looks within config.yaml to see if school url is stored and returns url + True. returns prompt + False otherwise"""
+    try:
+        with open('./config/config.yaml', 'r') as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+        return data['url'], True
+    except:
+        return "School URL", False
+
+def config_access(token: str, school_url: str) -> bool:
     """takes token and writes to /config/config.yaml"""
     with open('./config/config.yaml', 'w') as f:
-        try:
-            data = yaml.load(f, Loader=yaml.FullLoader)
-            print("current config:", data)
-        except:
-            payload = {'token': token}
-            yaml.dump(payload, f)
-
+        payload = {
+            'token': token,
+            'url': school_url
+        }
+        yaml.dump(payload, f)
     return True

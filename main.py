@@ -12,7 +12,7 @@ sg.theme('DarkAmber')
 # main/opening window layout
 layout = [
             [sg.Text('Hello! Let\'s get you by. First we need a couple things.')],
-            [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(key="canvasURL")],
+            [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(util.search_url()[0], key="canvasURL")],
             [sg.Text('Your Canvas Token:'), sg.InputText(util.search_token()[0], key='token')],
             [sg.Button('Ok'), sg.Cancel(), sg.Button("How to get a Token")]
         ]
@@ -53,10 +53,12 @@ while True:
 
         # user confirm/deny token storage
         if util.search_token()[1] == False:
-            store_token_prompt = "In order to simplify future uses of Just Get Me By, do you consent to having your token stored? If not, you will have to re-enter a token each time."
+            store_token_prompt = "In order to simplify future uses of Just Get Me By, do you consent to having your token and school URL stored? If not, you will have to re-enter a token and URL each time."
             confirm = sg.popup_yes_no(store_token_prompt)
             if confirm == "Yes":
-                util.config_token(req_items['token']) # store token
+                util.config_access(req_items['token'], req_items['canvasURL'])
+                # util.config_token(req_items['token']) # store token
+                # util.config_url(req_items['canvasURL']) # store URL
 
         # just need course id and name
         course_names = []
