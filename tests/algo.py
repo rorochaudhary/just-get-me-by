@@ -4,7 +4,7 @@ import os
 import random
 import re
 import toml
-from lib.algo.algo import algo
+from lib.algo.algo import calculate_min_grades
 
 
 def run():
@@ -42,7 +42,7 @@ def run():
                 group_dict[assignment['assignment_group_id']].append(assignment['name'])
 
         #uses the grade algorithm
-        return algo(target_grade, assignment_dict, group_dict)
+        return calculate_min_grades(target_grade, assignment_dict, group_dict)
 
     print(calculate_grades(93, test.assignments, test.assignment_grps))
 
