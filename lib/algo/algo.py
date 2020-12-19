@@ -4,7 +4,7 @@ import copy
 #returns an {'error'}: 'messagee'} on failure and the filled list on success
 #Gets a target percent, a dictionary holding assignment name keys with data in a list,
 # and a dictionary holding group id keys with the group weight and assignments in the group
-def calculate_min_grades(target, assignment, group_data) -> dict:
+def calculate_min_grades(target: float, assignment: list, group_data: list) -> dict:
     assignment_data = copy.deepcopy(assignment)
     score_loc = 0
     max_score_loc = 1
@@ -25,17 +25,20 @@ def calculate_min_grades(target, assignment, group_data) -> dict:
         #iterate through the assignments
         for i in range(1, len(assignment_list)):
             assignment_info = assignment_data[str(assignment_list[i])]
-            max_points += assignment_info[max_score_loc]
+            
+            #use assignment if it is worth points
+            if assignment_info[max_score_loc] != None:
+                max_points += assignment_info[max_score_loc]
 
-            #assignment is graded
-            if assignment_info[score_loc] != None:
-                points += assignment_info[score_loc]
-                used_max_points += assignment_info[max_score_loc]
+                #assignment is graded
+                if assignment_info[score_loc] != None:
+                    points += assignment_info[score_loc]
+                    used_max_points += assignment_info[max_score_loc]
 
-            #ungraded assignments
-            else:
-                ungraded_assignments.append(assignment_list[i])
-                assignment_weights[str(assignment_list[i])] = assignment_info[max_score_loc]
+                #ungraded assignments
+                else:
+                    ungraded_assignments.append(assignment_list[i])
+                    assignment_weights[str(assignment_list[i])] = assignment_info[max_score_loc]
 
         #Calculate assignment weights / 100
         for i in range(current_assignment, len(ungraded_assignments)):
