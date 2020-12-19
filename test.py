@@ -94,4 +94,7 @@ def calculate_grades(target_grade, course_id) -> dict:
         group_dict[assignment['assignment_group_id']].append(assignment['name'])
 
     #uses the grade algorithm
-    return algo(target_grade, assignment_data, group_data)
+    return algo(target_grade, assignment_dict, group_dict)
+
+
+print(calculate_grades(93, COURSE_ID))
