@@ -1,9 +1,11 @@
 import math
+import copy
 
 #returns an {'error'}: 'messagee'} on failure and the filled list on success
 #Gets a target percent, a dictionary holding assignment name keys with data in a list,
 # and a dictionary holding group id keys with the group weight and assignments in the group
-def algo(target, assignment_data, group_data) -> dict:
+def algo(target, assignment, group_data) -> dict:
+    assignment_data = copy.deepcopy(assignment)
     score_loc = 0
     max_score_loc = 1
     target_percent = float(target)              #user's target grade
