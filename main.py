@@ -68,36 +68,77 @@ while True:
                 break
             if course_event in ('Select'):
                 # print('user chose:', course_values['selected_course'][0])
+                course_chosen = course_values['selected_course'][0] 
                 # get selected course id
-                id = 0
+                course_id = 0
                 for i in range(len(course_names)):
-                    if course_names[i]['name'] == course_values['selected_course'][0]:
-                        id = course_names[i]['id']
+                    # if course_names[i]['name'] == course_values['selected_course'][0]:
+                    if course_names[i]['name'] == course_chosen:
+                        course_id = course_names[i]['id']
                 # print("selected:", id)
+
+                # get selected course assignments/grades
+                assignment_data = requestAPI.get_assignments_in_course(course_id)
+                group_data = requestAPI.get_assignment_groups_in_course(course_id)
+                raw_grade_standard = requestAPI.get_grading_standard_in_course(course_id)
+                grade_scale = raw_grade_standard[0]['grading_scheme']
+                assignment_dict = {}
+                group_dict = {}
+                # grade_standard = {}
+
+                # process group data
+                for group in group_data:
+                    assignment_list = []
+                    assignment_list.append(group['group_weight'])
+                    group_dict[group['id']] = assignment_list
+                print(f"group dict:\n{group_dict}")
+
+                # process assignments
+                for assignment in assignment_data:
+                    data_list = []
+                    data_list.append(assignment['submission']['score'])
+                    data_list.append(assignment['points_possible'])
+                    assignment_dict[assignment['name']] = data_list
+
+                    #append assignment to group
+                    group_dict[assignment['assignment_group_id']].append(assignment['name'])
+                print(f"assignment dict:\n{assignment_dict}")
+
+                # process grade_standard to get users target
+                print(grade_scale)
 
                 # ---------Grade Calculator Window (within Select Course loop)------------
                 # layout based on results
                 calc_layout = [
-                    [sg.Text('Your Canvas course:')]
+                    [sg.Text(f'Course: {course_chosen}')]
                 ]
+
+                # display grading scale
+                calc_layout += [sg.Text('Your course\'s current grade scale:')],
+                grade_list = []
+                for obj in grade_scale:
+                    grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
+                calc_layout += [grade_list[i] for i in range(len(grade_list))],
                 
+                # select target grade and execute grade calc
+                calc_layout += [sg.Text('Target Grade?'), sg.Combo(["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"], size=(3, 1))],
+                calc_layout += [sg.Button('Just Get Me By'), sg.Cancel()],
+
                 # display assignments
-                for i in range(0, 6):
-                    calc_layout += [sg.Text(f'assignment {i} here'), sg.Text(f'score {i} here'), sg.Text(f'total {i} here')],
+                calc_layout += [sg.Text("Your current assignments:")],
+                assignments_str = ""
+                for key, val in assignment_dict.items():
+                    assignments_str += f'{key} = {val[0]} out of {val[1]}\n'
+                # print(assignments_str)
+                calc_layout += [sg.Multiline(assignments_str, size=(45, 10))],
+
+                # for i in range(0, 6):
+                #     calc_layout += [sg.Text(f'assignment {i} here'), sg.Text(f'score {i} here'), sg.Text(f'total {i} here')],
 
                 # display grade weights
                 calc_layout += [sg.Text('canvas grade breakdown:')],
                 for i in range(0, 6):
                     calc_layout += [sg.Text(f'assignment group {i}'), sg.Text(f'group weight {i}'), sg.Text('total here')],
-
-                # display grading standard
-                calc_layout += [sg.Text('course grading standard:')],
-                for i in range(0, 6):
-                    calc_layout += [sg.Text(f'grade title {i}'), sg.Text(f'grading scheme {i}')],
-
-                # select target grade and execute grade calc
-                calc_layout += [sg.Text('Target Grade?'), sg.Combo(["A", "B", "C", "D", "E", "F"], size=(3, 1))],
-                calc_layout += [sg.Button('Just Get Me By'), sg.Cancel()],
 
                 # display window
                 calc_window = sg.Window('Grade Calculator', calc_layout, finalize=True)
