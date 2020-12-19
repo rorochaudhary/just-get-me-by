@@ -55,7 +55,10 @@ while True:
         for i in range(len(courses)):
             # print(f"Course {i}: {courses[i]}\n")
             # print(f'id: {courses[i]["id"]}, name: {courses[i]["name"]}')
-            course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
+            try:
+                course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
+            except:
+                pass
         print(f"current courses:\n{course_names}")
         # print([course_names[i]['name'] for i in range(len(course_names))])
 
