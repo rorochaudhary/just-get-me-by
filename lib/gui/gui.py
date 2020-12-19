@@ -61,6 +61,50 @@ def get_token_help():
                 "Screenshots of token generation are available at the GitHub repo - https://github.com/rorochaudhary/just-get-me-by"
     sg.popup_scrolled(get_token_txt, title="Getting a User Token")
 
+def get_assignments_and_groups(assignment_data, assignment_dict, group_data, group_dict):
+    # process group data
+    for group in group_data:
+        assignment_list = []
+        assignment_list.append(group['group_weight'])
+        group_dict[group['id']] = assignment_list
+
+    # process assignments
+    for assignment in assignment_data:
+        data_list = []
+        try:
+            data_list.append(assignment['submission']['score'])
+        except KeyError:
+            data_list.append(None)
+        finally:
+            data_list.append(assignment['points_possible'])
+            assignment_dict[assignment['name']] = data_list
+
+            # append assignment to group
+            group_dict[assignment['assignment_group_id']].append(assignment['name'])
+
+def display_known_info(raw_grade_standard, assignment_dict) -> list:
+    calc_layout = []
+
+    #find a grade standard to use
+    add_layout = get_grade_scale(raw_grade_standard)
+    calc_layout += add_layout
+
+    # select target grade and execute grade calc
+    calc_layout += [sg.Text('Target Grade?'), sg.InputText(size=(10, 1))],
+    calc_layout += [sg.Button('Just Get Me By'), sg.Cancel()],
+
+    # display assignments
+    calc_layout += [sg.Text("Your current assignments:")],
+    assignments_str = ""
+    for key, val in assignment_dict.items():
+        assignments_str += f'{key} = {val[0]} out of {val[1]}\n'
+    # print(assignments_str)
+    calc_layout += [sg.Multiline(assignments_str, size=(45, 10))],
+    calc_layout += [sg.Text('Your target scores needed:')],
+    calc_layout += [sg.Multiline(size=(45, 10), key='algo_result')],
+
+    return calc_layout
+
 def grade_standard_selection(grade_standards: list) -> list:
     """Opens a new window for the user to choose one of the GradingStandards.
 
