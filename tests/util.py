@@ -73,18 +73,18 @@ class Test:
             self.set_rand_course_id()
             self.gstds = self.canvas.get_grading_standard_in_course(self.rand_course_id)
 
-    def set_rand_grade_standard(self):
-        rand_gstd = gstds[random.randrange(len(gstds))]
-        while True:
-            if current_attempts == MAX_ATTEMPTS:
-                print(f"Reached max attempts: {MAX_ATTEMPTS}")
-                return
-            if 'grade_scheme' in rand_gstd:
-                break
-            current_attempts += 1
-            # Try finding a grade scheme somewhere else.
-            gstds = canvas.get_grading_standard_in_course(rand_course_id)
-            rand_gstd = gstds[random.randrange(len(gstds))]
+    # def set_rand_grade_standard(self):
+    #     rand_gstd = gstds[random.randrange(len(gstds))]
+    #     while True:
+    #         if current_attempts == MAX_ATTEMPTS:
+    #             print(f"Reached max attempts: {MAX_ATTEMPTS}")
+    #             return
+    #         if 'grade_scheme' in rand_gstd:
+    #             break
+    #         current_attempts += 1
+    #         # Try finding a grade scheme somewhere else.
+    #         gstds = canvas.get_grading_standard_in_course(rand_course_id)
+    #         rand_gstd = gstds[random.randrange(len(gstds))]
 
     def is_max_attempts_reached(self) -> bool:
         if self.current_attempts == self.MAX_ATTEMPTS:
