@@ -69,7 +69,7 @@ def algo(target, assignment_data, group_data) -> dict:
         #calculate last score if it has weight
         final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
         if assignment_weights[final_assignment] != 0:
-            assignment_data[final_assignment][score_loc] = (math.ceil(target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc])
+            assignment_data[final_assignment][score_loc] = (math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
         else:
             assignment_data[final_assignment][score_loc] = 0
 
