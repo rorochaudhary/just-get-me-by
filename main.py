@@ -159,8 +159,12 @@ while True:
                         break
                     if calc_event in ('Just Get Me By'):
                         print(util.get_target_percentage(calc_values[0], grade_scale))  # TODO: remove later
+                        target_score = util.get_target_percentage(calc_values[0], grade_scale)
+
+                        # call algo
+                        results = algo(target_score, assignment_dict, group_dict)
+                        print(results)
                         # pop up showing calculator results? or manipulate/add to current window?
-                        break
 
                 calc_window.close()
         course_window.close()
