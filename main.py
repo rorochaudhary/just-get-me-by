@@ -97,14 +97,20 @@ while True:
                 print(f"group dict:\n{group_dict}")
 
                 # process assignments
+                print(f'assignment data:\n{assignment_data}')
                 for assignment in assignment_data:
                     data_list = []
-                    data_list.append(assignment['submission']['score'])
-                    data_list.append(assignment['points_possible'])
-                    assignment_dict[assignment['name']] = data_list
+                    try:
+                        data_list.append(assignment['submission']['score'])
+                    except KeyError:
+                        data_list.append(None)
+                    finally:
+                        data_list.append(assignment['points_possible'])
+                        assignment_dict[assignment['name']] = data_list
 
-                    #append assignment to group
-                    group_dict[assignment['assignment_group_id']].append(assignment['name'])
+                        # append assignment to group
+                        group_dict[assignment['assignment_group_id']].append(assignment['name'])
+                        
                 print(f"assignment dict:\n{assignment_dict}")
 
                 # process grade_standard to get users target
