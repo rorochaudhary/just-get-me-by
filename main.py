@@ -37,7 +37,29 @@ while True:
         print("req_items:", req_items)
 
         # Put Canvas information in gui
-        requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
+        # get Canvas information
+        req_err_prompt = 'Error - either the token or URL you entered is not valid.\nPlease try again'
+        try:
+            requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
+            courses = requestAPI.get_courses()
+            print(f'courses:\n{courses}')
+            if 'errors' in courses:
+                sg.popup_error(req_err_prompt)
+                continue
+        except Exception as e:
+            traceback.print_exc()
+            sg.popup_error(req_err_prompt)
+            continue
+
+        # user confirm/deny token storage
+        if util.search_token()[1] == False:
+            store_token_prompt = "In order to simplify future uses of Just Get Me By, do you consent to having your token and school URL stored? If not, you will have to re-enter a token and URL each time."
+            confirm = sg.popup_yes_no(store_token_prompt)
+            if confirm == "Yes":
+                util.config_access(req_items['token'], req_items['canvasURL'])
+                # util.config_token(req_items['token']) # store token
+                # util.config_url(req_items['canvasURL']) # store URL
+
         course_names = []
         course_layout = gui.display_courses(course_names, requestAPI.get_courses())
         course_window = sg.Window('Select Course', course_layout, finalize=True)

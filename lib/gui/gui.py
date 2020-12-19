@@ -1,3 +1,4 @@
+import lib.util as util
 import PySimpleGUI as sg
 
 def get_main_layout() -> list:
@@ -37,10 +38,14 @@ def get_grade_scale(raw_grade_standard) -> list:
 def display_courses(course_names, courses) -> list:
     # just need course id and name
     for i in range(len(courses)):
+        # print(f"Course {i}: {courses[i]}\n")
+        # print(f'id: {courses[i]["id"]}, name: {courses[i]["name"]}')
         try:
             course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
         except:
             pass
+    # print(f"current courses:\n{course_names}")
+    # print([course_names[i]['name'] for i in range(len(course_names))])
 
     add_layout = [
         [sg.Listbox(values=[course_names[i]['name'] for i in range(len(course_names))], size=(75, 12), key='selected_course')],
