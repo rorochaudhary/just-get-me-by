@@ -79,4 +79,8 @@ class Canvas:
                 break
             except KeyError:  # headers doesn't contain Link
                 break
-        return data
+
+        if 'errors' in data:
+            return False
+        else:
+            return data

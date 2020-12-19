@@ -4,6 +4,7 @@ from lib.api.api import Canvas
 import lib.gui.gui as gui
 import lib.util as util
 import re
+import traceback
 import PySimpleGUI as sg
 # LOW PRIORITY - add PyInstaller to to make .exe without user Python requirement
 
@@ -47,9 +48,18 @@ while True:
         print("req_items:", req_items)
 
         # get Canvas information
-        requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
-        courses = requestAPI.get_courses()
-        # print(courses)
+        req_err_prompt = 'Error - either the token or URL you entered is not valid.\nPlease try again'
+        try:
+            requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
+            courses = requestAPI.get_courses()
+            print(courses)
+            if not courses:
+                sg.popup_error(req_err_prompt)
+                continue
+        except Exception as e:
+            traceback.print_exc()
+            sg.popup_error(req_err_prompt)
+            continue
 
         # user confirm/deny token storage
         if util.search_token()[1] == False:
