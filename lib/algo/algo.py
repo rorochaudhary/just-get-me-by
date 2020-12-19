@@ -1,9 +1,11 @@
 import math
+import copy
 
 #returns an {'error'}: 'messagee'} on failure and the filled list on success
 #Gets a target percent, a dictionary holding assignment name keys with data in a list,
 # and a dictionary holding group id keys with the group weight and assignments in the group
-def algo(target, assignment_data, group_data) -> dict:
+def algo(target, assignment, group_data) -> dict:
+    assignment_data = copy.deepcopy(assignment)
     score_loc = 0
     max_score_loc = 1
     target_percent = float(target)              #user's target grade
@@ -69,7 +71,7 @@ def algo(target, assignment_data, group_data) -> dict:
         #calculate last score if it has weight
         final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
         if assignment_weights[final_assignment] != 0:
-            assignment_data[final_assignment][score_loc] = (math.ceil(target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc])
+            assignment_data[final_assignment][score_loc] = (math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
         else:
             assignment_data[final_assignment][score_loc] = 0
 
