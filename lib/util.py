@@ -37,7 +37,7 @@ def search_token() -> str:
         return decoded_token, True
     except Exception as e:
         print(e)
-        return "Your Token", False
+        return "", False
 
 def search_url() -> str:
     """looks within config.yaml to see if school url is stored and returns url + True. returns prompt + False otherwise"""
