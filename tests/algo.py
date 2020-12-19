@@ -1,3 +1,4 @@
+from .classes import Test, MaxTestAttemptsReached
 from lib.api.api import Canvas
 import os
 import random
@@ -8,14 +9,10 @@ from lib.algo.algo import algo
 
 def run():
     print(f'{os.path.basename(__file__)}')
-    # Feed url and token into Canvas API.
-    my_token = toml.load('config/config.toml')['secret']['manual_token']
-    canvas = Canvas('https://canvas.oregonstate.edu', my_token)
 
     # Get random course id.
-    courses = canvas.get_courses()
-    random.seed()
-    rand_course_id = courses[random.randrange(len(courses))]['id']
+    test = Test()
+    test.set_rand_course_id()
 
     def calculate_grades(target_grade, course_id) -> dict:
         assignment_dict = {}
@@ -47,7 +44,7 @@ def run():
         #uses the grade algorithm
         return algo(target_grade, assignment_dict, group_dict)
 
-    print(calculate_grades(93, rand_course_id))
+    print(calculate_grades(93, test.rand_course_id))
 
 
 if __name__ == '__main__':
