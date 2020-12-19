@@ -1,5 +1,13 @@
 import PySimpleGUI as sg
 
+def get_main_layout() -> list:
+    return [
+        [sg.Text('Hello! Let\'s get you by. First we need a couple things.')],
+        [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(key="canvasURL")],
+        [sg.Text('Your Canvas Token:'), sg.InputText(key='token')],
+        [sg.Button('Ok'), sg.Cancel(), sg.Button("How to get a Token")]
+    ]
+
 def get_grade_scale(raw_grade_standard) -> list:
     display_grade_scale = False
 
@@ -25,6 +33,22 @@ def get_grade_scale(raw_grade_standard) -> list:
         add_layout += [grade_list[i] for i in range(len(grade_list))],
 
     return add_layout
+
+def display_courses(course_names, courses) -> list:
+    # just need course id and name
+    for i in range(len(courses)):
+        try:
+            course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
+        except:
+            pass
+
+    add_layout = [
+        [sg.Listbox(values=[course_names[i]['name'] for i in range(len(course_names))], size=(75, 12), key='selected_course')],
+        [sg.Button('Select'), sg.Button('Cancel')]
+    ]
+
+    return add_layout
+
 
 def get_token_help():
     get_token_txt = "In order to calculate your grades, I will need a token:\n" + \

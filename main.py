@@ -7,55 +7,36 @@ import re
 import PySimpleGUI as sg
 # LOW PRIORITY - add PyInstaller to to make .exe without user Python requirement
 
+#set theme
 sg.theme('DarkAmber')
 
-# main/opening window layout
-layout = [
-            [sg.Text('Hello! Let\'s get you by. First we need a couple things.')],
-            [sg.Text('School Canvas URL (ex. canvas.oregonstate.edu):'), sg.InputText(key="canvasURL")],
-            [sg.Text('Your Canvas Token:'), sg.InputText(key='token')],
-            [sg.Button('Ok'), sg.Cancel(), sg.Button("How to get a Token")]
-        ]
-
-# Create the Window
+# main window creation
+layout = gui.get_main_layout()
 window = sg.Window('Just Get Me By', layout)
 
 # Main Event Loop to process "events"
 while True:
     event, values = window.read()
+
     #close program
     if event in (sg.WIN_CLOSED, 'Cancel'):
         break
-
     #Show how to get a token
     if event in ("How to get a Token"):
         gui.get_token_help()
-
-    # -------Select Course Window (within mainloop)-------------
+    #Select Course Window
     if event in ('Ok'):
         req_items = values
+
         # Add https:// to url if protocol not found.
         proto = 'https://' if re.search('[^:]+://', req_items['canvasURL']) is None else ''
         req_items['canvasURL'] = proto + req_items['canvasURL'] # right place to format protocol??
         print("req_items:", req_items)
 
-        # get Canvas information
+        # Put Canvas information in gui
         requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
-        courses = requestAPI.get_courses()
-
-        # just need course id and name
         course_names = []
-        for i in range(len(courses)):
-            try:
-                course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
-            except:
-                pass
-
-        course_layout = [
-            [sg.Listbox(values=[course_names[i]['name'] for i in range(len(course_names))], size=(75, 12), key='selected_course')],
-            [sg.Button('Select'), sg.Button('Cancel')]
-        ]
-
+        course_layout = gui.display_courses(course_names, requestAPI.get_courses())
         course_window = sg.Window('Select Course', course_layout, finalize=True)
 
         while True:
