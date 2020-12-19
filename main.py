@@ -135,8 +135,9 @@ while True:
                     selected_gstd = gui.grade_standard_selection(raw_grade_standard)
                     if len(selected_gstd) == 0:  # empty list returned if canceled
                         display_grade_scale = False
-                    grade_scale = selected_gstd['grading_scheme']
-                    display_grade_scale = True
+                    else:
+                        grade_scale = selected_gstd['grading_scheme']
+                        display_grade_scale = True
 
                 if display_grade_scale is True:
                     # display grading scale
