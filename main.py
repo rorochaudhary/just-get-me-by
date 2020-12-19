@@ -51,6 +51,9 @@ while True:
         courses = requestAPI.get_courses()
         # print(courses)
 
+        # store token in config
+        util.config_token(req_items['token'])
+
         # just need course id and name
         course_names = []
         for i in range(len(courses)):

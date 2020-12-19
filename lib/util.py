@@ -1,3 +1,5 @@
+import yaml
+
 def get_target_percentage(target_letter: str, grade_scheme: list) -> float:
     """Returns the percentage required to achieve the target letter grade."""
     for grade in grade_scheme:
@@ -23,4 +25,11 @@ def is_target_valid(target: float) -> bool:
     if target > 100.0:
         return False
     # Add more checks here if needed.
+    return True
+
+def config_token(token: str) -> bool:
+    """takes token and writes to /config/config.yaml"""
+    with open('./config/config.yaml', 'a') as f:
+        payload = {'token': token}
+        yaml.dump(payload, f)
     return True
