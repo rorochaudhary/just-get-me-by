@@ -14,6 +14,18 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
     assignment_weights = {}                     #holds ungraded assignment weights
     current_assignment = 0                      #index of assignment to change the weight for
 
+    #empty assignment data
+    if not assignment_data:
+        return {'error': "No assignments found"}
+
+    #empty group data
+    if not group_data:
+        return {'error': "No group data found"}
+
+    #invalid target
+    if target_percent < 0 or target_percent > 100:
+        return {'error': "Target percent not in range 0-100"}
+
     #for each assignment group
     for group_id in group_data:
         assignment_list = group_data[group_id] #has the group weight and assignments
