@@ -1,3 +1,4 @@
+from .test_util import print_title
 from lib.api.api import Canvas
 import os
 import random
@@ -5,7 +6,8 @@ import toml
 
 
 def run():
-    print(f'{os.path.basename(__file__)}')
+    print_title(os.path.basename(__file__))
+
     # Feed url and token into Canvas API.
     my_token = toml.load('config/config.toml')['secret']['manual_token']
     canvas = Canvas('https://canvas.oregonstate.edu', my_token)
@@ -69,6 +71,8 @@ def run():
             f"grading_scheme: {gs['grading_scheme']}\n"
         )
     print('')
+
+    print('passed\n')
 
 
 if __name__ == '__main__':

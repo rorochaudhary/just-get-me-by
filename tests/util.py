@@ -1,10 +1,11 @@
-from .classes import Test, MaxTestAttemptsReached
+from .test_util import print_title, Test, MaxTestAttemptsReached
 import lib.util as util
 import os
 
 
 def run():
-    print(f'{os.path.basename(__file__)}')
+    print_title(os.path.basename(__file__))
+
     test = Test(MAX_ATTEMPTS=10)
     try:
         test.set_rand_grade_standard()
@@ -14,6 +15,7 @@ def run():
     result = util.get_target_percentage('A', gsch)
     print(result)
 
+    print('passed\n')
 
 if __name__ == '__main__':
     run()

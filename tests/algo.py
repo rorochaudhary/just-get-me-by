@@ -1,4 +1,4 @@
-from .classes import Test, MaxTestAttemptsReached
+from .test_util import print_title, Test, MaxTestAttemptsReached
 from lib.api.api import Canvas
 import os
 import random
@@ -8,17 +8,17 @@ from lib.algo.algo import algo
 
 
 def run():
-    print(f'{os.path.basename(__file__)}')
+    print_title(os.path.basename(__file__))
 
-    # Get random course id.
-    test = Test()
+    # Set up data.
+    test = Test(MAX_ATTEMPTS=10)
     test.set_rand_course_id()
+    test.set_assignments()
+    test.set_assignment_groups()
 
-    def calculate_grades(target_grade, course_id) -> dict:
+    def calculate_grades(target_grade, assignment_data, group_data) -> dict:
         assignment_dict = {}
         group_dict = {}
-        assignment_data = canvas.get_assignments_in_course(rand_course_id)
-        group_data = canvas.get_assignment_groups_in_course(rand_course_id)
 
         #creates a dict holding group ids: 'group_id': [group_weight]
         for group in group_data:
@@ -44,8 +44,9 @@ def run():
         #uses the grade algorithm
         return algo(target_grade, assignment_dict, group_dict)
 
-    print(calculate_grades(93, test.rand_course_id))
+    print(calculate_grades(93, test.assignments, test.assignment_grps))
 
+    print('passed\n')
 
 if __name__ == '__main__':
     run()
