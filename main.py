@@ -98,10 +98,10 @@ while True:
                     assignment_list = []
                     assignment_list.append(group['group_weight'])
                     group_dict[group['id']] = assignment_list
-                print(f"group dict:\n{group_dict}")
+                # print(f"group dict:\n{group_dict}")
 
                 # process assignments
-                print(f'assignment data:\n{assignment_data}')
+                # print(f'assignment data:\n{assignment_data}')
                 for assignment in assignment_data:
                     data_list = []
                     try:
@@ -115,7 +115,7 @@ while True:
                         # append assignment to group
                         group_dict[assignment['assignment_group_id']].append(assignment['name'])
 
-                print(f"assignment dict:\n{assignment_dict}")
+                # print(f"assignment dict:\n{assignment_dict}")
 
                 # process grade_standard to get users target
                 print(grade_scale)
@@ -145,13 +145,8 @@ while True:
                 # print(assignments_str)
                 calc_layout += [sg.Multiline(assignments_str, size=(45, 10))],
 
-                # for i in range(0, 6):
-                #     calc_layout += [sg.Text(f'assignment {i} here'), sg.Text(f'score {i} here'), sg.Text(f'total {i} here')],
-
-                # display grade weights
-                calc_layout += [sg.Text('canvas grade breakdown:')],
-                for i in range(0, 6):
-                    calc_layout += [sg.Text(f'assignment group {i}'), sg.Text(f'group weight {i}'), sg.Text('total here')],
+                calc_layout += [sg.Text('Your target scores needed:')],
+                calc_layout += [sg.Multiline(size=(45, 12), key='algo_result')],
 
                 # display window
                 calc_window = sg.Window('Grade Calculator', calc_layout, finalize=True)
@@ -167,7 +162,10 @@ while True:
                         # call algo
                         results = algo(target_score, assignment_dict, group_dict)
                         print(results)
-                        # pop up showing calculator results? or manipulate/add to current window?
+
+                        # display algo results
+                        print(calc_values)
+                        calc_window['algo_result'].update(results)
 
                 calc_window.close()
         course_window.close()
