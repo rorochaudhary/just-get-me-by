@@ -23,20 +23,13 @@ window = sg.Window('Just Get Me By', layout)
 # Main Event Loop to process "events"
 while True:
     event, values = window.read()
+    #close program
     if event in (sg.WIN_CLOSED, 'Cancel'):
         break
 
-    # -------------Help Get Token Window (within mainloop)-----------
+    #Show how to get a token
     if event in ("How to get a Token"):
-        get_token_txt = "In order to calculate your grades, I will need a token:\n" + \
-                        "1. Login to your institution Canvas site.\n" + \
-                        "2. On the left vertical taskbar, click 'Account'\n" + \
-                        "3. Click Profile -> Settings\n" + \
-                        "4. In the Approved Integrations section, click '+New Access Token'\n" + \
-                        "5. Give a Purpose (ex. Just Get Me By) and click 'Generate Token'\n" + \
-                        "6. Copy/Paste the Token (including the leading number and ~ sign) into the Your Canvas Token field and you're done!\n\n" + \
-                        "Screenshots of token generation are available at the GitHub repo - https://github.com/rorochaudhary/just-get-me-by"
-        sg.popup_scrolled(get_token_txt, title="Getting a User Token")
+        gui.get_token_help()
 
     # -------Select Course Window (within mainloop)-------------
     if event in ('Ok'):
@@ -49,19 +42,14 @@ while True:
         # get Canvas information
         requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
         courses = requestAPI.get_courses()
-        # print(courses)
 
         # just need course id and name
         course_names = []
         for i in range(len(courses)):
-            # print(f"Course {i}: {courses[i]}\n")
-            # print(f'id: {courses[i]["id"]}, name: {courses[i]["name"]}')
             try:
                 course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
             except:
                 pass
-        print(f"current courses:\n{course_names}")
-        # print([course_names[i]['name'] for i in range(len(course_names))])
 
         course_layout = [
             [sg.Listbox(values=[course_names[i]['name'] for i in range(len(course_names))], size=(75, 12), key='selected_course')],
@@ -88,7 +76,6 @@ while True:
                 # get selected course assignments/grades
                 assignment_data = requestAPI.get_assignments_in_course(course_id)
                 group_data = requestAPI.get_assignment_groups_in_course(course_id)
-                raw_grade_standard = requestAPI.get_grading_standard_in_course(course_id)
 
                 assignment_dict = {}
                 group_dict = {}
@@ -127,25 +114,10 @@ while True:
                     [sg.Text(f'Course: {course_chosen}')]
                 ]
 
-                display_grade_scale = False
-                if len(raw_grade_standard) == 1:
-                    grade_scale = raw_grade_standard[0]['grading_scheme']
-                    display_grade_scale = True
-                elif len(raw_grade_standard) > 1:
-                    selected_gstd = gui.grade_standard_selection(raw_grade_standard)
-                    if len(selected_gstd) == 0:  # empty list returned if canceled
-                        display_grade_scale = False
-                    else:
-                        grade_scale = selected_gstd['grading_scheme']
-                        display_grade_scale = True
-
-                if display_grade_scale is True:
-                    # display grading scale
-                    calc_layout += [sg.Text('Your course\'s current grade scale:')],
-                    grade_list = []
-                    for obj in grade_scale:
-                        grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
-                    calc_layout += [grade_list[i] for i in range(len(grade_list))],
+                #find a grade standard to use
+                raw_grade_standard = requestAPI.get_grading_standard_in_course(course_id)
+                add_layout = gui.get_grade_scale(raw_grade_standard)
+                calc_layout += add_layout
 
                 # select target grade and execute grade calc
                 calc_layout += [sg.Text('Target Grade?'), sg.InputText(size=(10, 1))],
