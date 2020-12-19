@@ -29,7 +29,12 @@ def is_target_valid(target: float) -> bool:
 
 def config_token(token: str) -> bool:
     """takes token and writes to /config/config.yaml"""
-    with open('./config/config.yaml', 'a') as f:
-        payload = {'token': token}
-        yaml.dump(payload, f)
+    with open('./config/config.yaml', 'w') as f:
+        try:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+            print("current config:", data)
+        except:
+            payload = {'token': token}
+            yaml.dump(payload, f)
+
     return True
