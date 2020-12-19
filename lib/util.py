@@ -49,7 +49,7 @@ def search_url() -> str:
         return decoded_url, True
     except Exception as e:
         print(e)
-        return "School URL", False
+        return "", False
 
 def config_access(token: str, school_url: str) -> bool:
     """takes token and writes to /config/config.yaml"""
