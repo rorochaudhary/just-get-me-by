@@ -2,6 +2,7 @@ from .test_util import print_title, Test, MaxTestAttemptsReached
 import os
 import re
 
+
 def run():
     print_title(os.path.basename(__file__))
 
@@ -16,6 +17,7 @@ def run():
     assert(re.search(pattern, re_test_str) is not None)
 
     print('passed\n')
+
 
 if __name__ == '__main__':
     run()
