@@ -2,10 +2,15 @@ from lib.api.api import Canvas
 import re
 import toml
 
-# # Regex test
+# # Regex test for api get all pages
 # re_test_str = '''<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=1&per_page=10>; rel="current",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=2&per_page=10>; rel="next",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=1&per_page=10>; rel="first",<https://canvas.oregonstate.edu/api/v1/courses/1784184/assignments?include=submission&page=2&per_page=10>; rel="last"'''
 # pattern = '<([^>]+)>; rel="next"'
 # print(re.search(pattern, re_test_str).group(1))
+
+# # Regex test for protocol search
+# re_test_str = '''https://canvas.oregonstate.edu'''
+# pattern = '[^:]+://'
+# print(re.search(pattern, re_test_str))
 
 # # Canvas API test
 my_token = toml.load('config/config.toml')['secret']['manual_token']
