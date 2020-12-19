@@ -52,8 +52,8 @@ while True:
         try:
             requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
             courses = requestAPI.get_courses()
-            print(courses)
-            if not courses:
+            print(f'courses:\n{courses}')
+            if 'errors' in courses:
                 sg.popup_error(req_err_prompt)
                 continue
         except Exception as e:
@@ -79,7 +79,7 @@ while True:
                 course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
             except:
                 pass
-        print(f"current courses:\n{course_names}")
+        # print(f"current courses:\n{course_names}")
         # print([course_names[i]['name'] for i in range(len(course_names))])
 
         course_layout = [
