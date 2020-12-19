@@ -78,22 +78,29 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
             #calculate weight gain if score has weight
             if assignment_data[assignment][max_score_loc] != 0:
                 target_percent -= (assignment_data[assignment][score_loc] / assignment_data[assignment][max_score_loc]) * assignment_weights[assignment]
+                weight_percent_remaining -= assignment_weights[assignment]
 
             #negative scores error handling
             if assignment_data[assignment][score_loc] < 0:
                 assignment_data[assignment][score_loc] = 0
 
-        #calculate last score if it has weight
+        #calculate last score
         if len(ungraded_assignments) > 0:
             final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
+            #score has weight
             if assignment_weights[final_assignment] != 0:
                 assignment_data[final_assignment][score_loc] = (math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
+                weight_percent_remaining -= assignment_weights[final_assignment]
             else:
                 assignment_data[final_assignment][score_loc] = 0
 
             #negative scores error handling
             if assignment_data[final_assignment][score_loc] < 0:
                 assignment_data[final_assignment][score_loc] = 0
+
+    #error handle weights not adding up to 100
+    if weight_percent_remaining != 0:
+        return {'error': "Group weights don't add up to 100"}
 
     #change all needed scores to 0
     else:
