@@ -1,5 +1,5 @@
 # main logic for Just Get Me By that integrates algo.py, api.py, and gui.py
-from lib.algo.algo import algo
+from lib.algo.algo import calculate_min_grades
 from lib.api.api import Canvas
 import lib.gui.gui as gui
 import lib.util as util
@@ -176,7 +176,7 @@ while True:
                         if target_score == -1.0:  # -1.0 is the sentinel value
                             results_str = "Please enter a valid target grade!"
                         else:
-                            results = algo(target_score, assignment_dict, group_dict)
+                            results = calculate_min_grades(target_score, assignment_dict, group_dict)
                             print(results)
                             for key, value in results.items():
                                 results_str += f'{key} = {value[0]} out of {value[1]}\n'
