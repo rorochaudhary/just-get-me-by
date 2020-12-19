@@ -27,6 +27,15 @@ def is_target_valid(target: float) -> bool:
     # Add more checks here if needed.
     return True
 
+def search_token() -> str:
+    """looks within config.yaml to see if token is stored and returns token + True. returns prompt + False otherwise"""
+    try:
+        with open('./config/config.yaml', 'r') as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+        return data['token'], True
+    except:
+        return "Your Token", False
+
 def config_token(token: str) -> bool:
     """takes token and writes to /config/config.yaml"""
     with open('./config/config.yaml', 'w') as f:
