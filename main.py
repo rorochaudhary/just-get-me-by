@@ -1,6 +1,7 @@
 # main logic for Just Get Me By that integrates algo.py, api.py, and gui.py
 from lib.algo.algo import algo
 from lib.api.api import Canvas
+import lib.gui.gui as gui
 import lib.util as util
 import re
 import PySimpleGUI as sg
@@ -88,7 +89,7 @@ while True:
                 assignment_data = requestAPI.get_assignments_in_course(course_id)
                 group_data = requestAPI.get_assignment_groups_in_course(course_id)
                 raw_grade_standard = requestAPI.get_grading_standard_in_course(course_id)
-                grade_scale = raw_grade_standard[0]['grading_scheme']
+
                 assignment_dict = {}
                 group_dict = {}
                 # grade_standard = {}
@@ -118,7 +119,7 @@ while True:
                 # print(f"assignment dict:\n{assignment_dict}")
 
                 # process grade_standard to get users target
-                print(grade_scale)
+                # print(grade_scale)
 
                 # ---------Grade Calculator Window (within Select Course loop)------------
                 # layout based on results
@@ -126,15 +127,28 @@ while True:
                     [sg.Text(f'Course: {course_chosen}')]
                 ]
 
-                # display grading scale
-                calc_layout += [sg.Text('Your course\'s current grade scale:')],
-                grade_list = []
-                for obj in grade_scale:
-                    grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
-                calc_layout += [grade_list[i] for i in range(len(grade_list))],
+                display_grade_scale = False
+                if len(raw_grade_standard) == 1:
+                    grade_scale = raw_grade_standard[0]['grading_scheme']
+                    display_grade_scale = True
+                elif len(raw_grade_standard) > 1:
+                    selected_gstd = gui.grade_standard_selection(raw_grade_standard)
+                    if len(selected_gstd) == 0:  # empty list returned if canceled
+                        display_grade_scale = False
+                    else:
+                        grade_scale = selected_gstd['grading_scheme']
+                        display_grade_scale = True
+
+                if display_grade_scale is True:
+                    # display grading scale
+                    calc_layout += [sg.Text('Your course\'s current grade scale:')],
+                    grade_list = []
+                    for obj in grade_scale:
+                        grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
+                    calc_layout += [grade_list[i] for i in range(len(grade_list))],
 
                 # select target grade and execute grade calc
-                calc_layout += [sg.Text('Target Grade?'), sg.Combo(["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"], size=(3, 1))],
+                calc_layout += [sg.Text('Target Grade?'), sg.InputText(size=(10, 1))],
                 calc_layout += [sg.Button('Just Get Me By'), sg.Cancel()],
 
                 # display assignments
@@ -155,18 +169,19 @@ while True:
                     if calc_event in (sg.WIN_CLOSED, 'Cancel'):
                         break
                     if calc_event in ('Just Get Me By'):
-                        print(util.get_target_percentage(calc_values[0], grade_scale))  # TODO: remove later
-                        target_score = util.get_target_percentage(calc_values[0], grade_scale)
+                        target_score = util.input_to_float(calc_values[0])
 
                         # call algo
                         results_str = ""
-                        results = algo(target_score, assignment_dict, group_dict)
-                        print(results)
-                        for key, value in results.items():
-                            results_str += f'{key} = {value[0]} out of {value[1]}\n'
-                        
-                        # display algo results
-                        print(calc_values)
+                        if target_score == -1.0:  # -1.0 is the sentinel value
+                            results_str = "Please enter a valid target grade!"
+                        else:
+                            results = algo(target_score, assignment_dict, group_dict)
+                            print(results)
+                            for key, value in results.items():
+                                results_str += f'{key} = {value[0]} out of {value[1]}\n'
+                            # display algo results
+                            print(calc_values)
                         calc_window['algo_result'].update(results_str)
 
                 calc_window.close()
