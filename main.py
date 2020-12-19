@@ -51,8 +51,12 @@ while True:
         courses = requestAPI.get_courses()
         # print(courses)
 
-        # store token in config
-        util.config_token(req_items['token'])
+        # user confirm/deny token storage
+        store_token_prompt = "In order to simplify future uses of Just Get Me By, do you consent to having your token stored? If not, you will have to re-enter a token each time."
+        confirm = sg.popup_yes_no(store_token_prompt)
+
+        if confirm == "Yes":
+            util.config_token(req_items['token']) # store token
 
         # just need course id and name
         course_names = []
