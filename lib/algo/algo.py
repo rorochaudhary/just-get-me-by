@@ -23,7 +23,7 @@ def algo(target, assignment_data, group_data) -> dict:
         #iterate through the assignments
         for i in range(1, len(assignment_list)):
             assignment_info = assignment_data[str(assignment_list[i])]
-            max_points += assignment_info[1]
+            max_points += assignment_info[max_score_loc]
 
             #assignment is graded
             if assignment_info[score_loc] != None:
@@ -37,13 +37,13 @@ def algo(target, assignment_data, group_data) -> dict:
 
         #change assignment weights
         for i in range(current_assignment, len(ungraded_assignments)):
-            assignment_weights[ungraded_assignments[i]] = assignment_weights[ungraded_assignments[i]] / max_points * group_weight
+            assignment_weights[ungraded_assignments[i]] = (assignment_weights[ungraded_assignments[i]] / max_points) * group_weight
             current_assignment += 1
 
         #subtract used points if there were graded assignments in the group
         if used_max_points != 0:
-            target_percent -= (points / used_max_points) * (used_max_points / max_points * group_weight)
-            weight_percent_remaining -= (used_max_points / max_points * group_weight)
+            target_percent -= (points / used_max_points) * ((used_max_points / max_points) * group_weight)
+            weight_percent_remaining -= ((used_max_points / max_points) * group_weight)
 
         #end condition of grade not possible
         if target_percent > weight_percent_remaining:
@@ -56,7 +56,7 @@ def algo(target, assignment_data, group_data) -> dict:
         for i in range(0, len(ungraded_assignments) - 1):
             assignment = ungraded_assignments[i]
             assignment_data[assignment][score_loc] = math.ceil(assignment_data[assignment][max_score_loc] * average_percent)
-            target_percent -= assignment_data[assignment][score_loc] / assignment_data[assignment][max_score_loc] * assignment_weights[assignment]
+            target_percent -= (assignment_data[assignment][score_loc] / assignment_data[assignment][max_score_loc]) * assignment_weights[assignment]
 
             #negative scores error handling
             if assignment_data[assignment][score_loc] < 0:
@@ -64,7 +64,7 @@ def algo(target, assignment_data, group_data) -> dict:
 
         #calculate last score
         final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
-        assignment_data[final_assignment][score_loc] = math.ceil(target_percent / assignment_weights[final_assignment] * assignment_data[final_assignment][max_score_loc])
+        assignment_data[final_assignment][score_loc] = (math.ceil(target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc])
         #negative scores error handling
         if assignment_data[final_assignment][score_loc] < 0:
             assignment_data[final_assignment][score_loc] = 0
