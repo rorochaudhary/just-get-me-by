@@ -166,13 +166,15 @@ while True:
 
                         # call algo
                         results_str = ""
-                        results = algo(target_score, assignment_dict, group_dict)
-                        print(results)
-                        for key, value in results.items():
-                            results_str += f'{key} = {value[0]} out of {value[1]}\n'
-
-                        # display algo results
-                        print(calc_values)
+                        if target_score == -1.0:  # -1.0 is the sentinel value
+                            results_str = "Please enter a valid target grade!"
+                        else:
+                            results = algo(target_score, assignment_dict, group_dict)
+                            print(results)
+                            for key, value in results.items():
+                                results_str += f'{key} = {value[0]} out of {value[1]}\n'
+                            # display algo results
+                            print(calc_values)
                         calc_window['algo_result'].update(results_str)
 
                 calc_window.close()
