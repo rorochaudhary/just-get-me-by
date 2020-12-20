@@ -91,7 +91,7 @@ while True:
 
         while True:
             course_event, course_values = course_window.read()
-            if course_event in ('Cancel'):
+            if course_event in (sg.WIN_CLOSED, 'Cancel'):
                 break
             if course_event in ('Select'):
                 # print('user chose:', course_values['selected_course'][0])
