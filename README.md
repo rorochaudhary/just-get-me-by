@@ -25,7 +25,7 @@ An entry into BeaverHacks Winter 2020 Hackathon.
     - Copy/Paste the Token (including the leading number and ~ sign) into the Your Canvas Token field and click Ok.<br>
     ![Input the Token](./docs/img/get_token.jpg)
     - For easy re-calculation even after closing the app, click Yes on the confirmation page. If you would like to re-enter your information next time, click No.<br>
-    ![Confirm Storage](./docs/img/get_token.jpg)
+    ![Confirm Storage](./docs/img/confirm_storage.jpg)
 4. Select your Course from which you need target help.
 5. Choose your target grade.
 6. Let us get you by.
