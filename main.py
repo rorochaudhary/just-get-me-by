@@ -109,8 +109,11 @@ while True:
                         else:
                             results = calculate_min_grades(target_score, assignment_dict, group_dict)
                             print(results)
-                            for key, value in results.items():
-                                results_str += f'{key} = {value[0]} out of {value[1]}\n'
+                            if 'error' in results:
+                                results_str += results['error']
+                            else:
+                                for key, value in results.items():
+                                    results_str += f'{key} = {value[0]} out of {value[1]}\n'
                         calc_window['algo_result'].update(results_str)
 
                 calc_window.close()
