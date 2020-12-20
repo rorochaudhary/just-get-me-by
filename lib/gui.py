@@ -130,6 +130,8 @@ def grade_standard_selection(grade_standards: list) -> list:
             window.close()
             return []
         if event in ('Select', 'Details'):
+            if len(values['selected']) == 0:
+                continue
             selected_title = values['selected'][0]
             for gstd in grade_standards:
                 if gstd['title'] == selected_title:
