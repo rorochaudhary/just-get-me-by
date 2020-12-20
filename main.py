@@ -114,7 +114,7 @@ while True:
                                 results_str += results['error']
                             else:
                                 for key, value in results.items():
-                                    results_str += f'{key} = {value[0]} out of {value[1]}\n'
+                                    results_str += f"{key} = {value[0] if value[0] is not None else '---'}/{value[1]}\n"
                         calc_window['algo_result'].update(results_str)
 
                 calc_window.close()
