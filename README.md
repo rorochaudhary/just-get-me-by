@@ -12,7 +12,7 @@ An entry into BeaverHacks Winter 2020 Hackathon.
     - Enter your school Canvas url that you regularly log in with (example: canvas.oregonstate.edu)<br>
     ![Enter School Canvas URL](./docs/img/input_url.jpg)
     - If you already have a generated token, enter it into the appropriate field
-    ##### How to get a token:
+    #### How to get a token:
     - Login to your school's Canvas site as you normally do.
     - On the left vertical taskbar, click 'Account'.<br>
     ![Click on Account](./docs/img/account.jpg)
