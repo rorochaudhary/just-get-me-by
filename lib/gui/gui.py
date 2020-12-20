@@ -132,6 +132,7 @@ def grade_standard_selection(grade_standards: list) -> list:
     while True:
         event, values = window.read()
         if event in (sg.WIN_CLOSED, 'Cancel'):
+            window.close()
             return []
         if event in ('Select', 'Details'):
             selected_title = values['selected'][0]

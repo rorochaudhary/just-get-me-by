@@ -38,17 +38,17 @@ while True:
 
         # Put Canvas information in gui
         # get Canvas information
-        req_err_prompt = 'Error - either the token or URL you entered is not valid.\nPlease try again'
+        req_err_prompt = 'Either the token or URL you entered is not valid.\nPlease try again'
         try:
             requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
             courses = requestAPI.get_courses()
-            print(f'courses:\n{courses}')
-            if 'errors' in courses:
-                sg.popup_error(req_err_prompt)
+            print(courses)
+            if not courses:
+                sg.popup_error(req_err_prompt, title='Token or URL Error')
                 continue
         except Exception as e:
             traceback.print_exc()
-            sg.popup_error(req_err_prompt)
+            sg.popup_error(req_err_prompt, title='Token or URL Error')
             continue
 
         # user confirm/deny token storage
@@ -66,7 +66,7 @@ while True:
 
         while True:
             course_event, course_values = course_window.read()
-            if course_event in ('Cancel'):
+            if course_event in (sg.WIN_CLOSED, 'Cancel'):
                 break
             if course_event in ('Select'):
                 course_chosen = course_values['selected_course'][0]
