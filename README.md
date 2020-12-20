@@ -6,7 +6,7 @@ This is where Just Get Me By comes in. This is a streamlined desktop app that ga
 An entry into BeaverHacks Winter 2021 Hackathon.
 
 ## Getting started
-1. Download our [latest release](#INSERT RELEASE LINK)
+1. Download our [latest release for Windows/Linux](https://github.com/rorochaudhary/just-get-me-by/releases/tag/v0.1.0)
 2. Double-click on *main.exe*
 3. Give us your info!!! (Just kidding, the app doesn't send us any of your info.)
     - Enter your school Canvas url that you regularly log in with (example: canvas.oregonstate.edu)<br>
