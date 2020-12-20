@@ -43,7 +43,7 @@ while True:
             requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
             courses = requestAPI.get_courses()
             print(courses)
-            if not courses:
+            if 'errors' in courses:
                 sg.popup_error(req_err_prompt, title='Token or URL Error')
                 continue
         except Exception as e:
