@@ -26,6 +26,11 @@ An entry into BeaverHacks Winter 2020 Hackathon.
     ![Input the Token](./docs/img/get_token.jpg)
     - For easy re-calculation even after closing the app, click Yes on the confirmation page. If you would like to re-enter your information next time, click No.<br>
     ![Confirm Storage](./docs/img/confirm_storage.jpg)
-4. Select your Course from which you need target help.
-5. Choose your target grade.
-6. Let us get you by.
+4. Select your Course from which you need target help.<br>
+![Select Course](./docs/img/select_course.jpg)
+5. Your instructor may have more than one grading scale used in your course. Select the one that fits your current course.
+![Select Grade Scale](./docs/img/grade_scheme.jpg)
+6. Choose your target grade.<br>
+![Input Target Grade](./docs/img/input_target.jpg)
+7. Target Scores on your assignments are shown at the bottom.<br>
+![Results](./docs/img/results.jpg)
