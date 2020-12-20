@@ -4,7 +4,7 @@ import copy
 #returns an {'error'}: 'messagee'} on failure and the filled list on success
 #Gets a target percent, a dictionary holding assignment name keys with data in a list,
 # and a dictionary holding group id keys with the group weight and assignments in the group
-def algo(target, assignment, group_data) -> dict:
+def calculate_min_grades(target: float, assignment: list, group_data: list) -> dict:
     assignment_data = copy.deepcopy(assignment)
     score_loc = 0
     max_score_loc = 1
@@ -13,6 +13,18 @@ def algo(target, assignment, group_data) -> dict:
     ungraded_assignments = []                   #list of ungraded assignments
     assignment_weights = {}                     #holds ungraded assignment weights
     current_assignment = 0                      #index of assignment to change the weight for
+
+    #empty assignment data
+    if not assignment_data:
+        return {'error': "No assignments found"}
+
+    #empty group data
+    if not group_data:
+        return {'error': "No group data found"}
+
+    #invalid target
+    if target_percent < 0 or target_percent > 100:
+        return {'error': "Target percent not in range 0-100"}
 
     #for each assignment group
     for group_id in group_data:
@@ -25,17 +37,20 @@ def algo(target, assignment, group_data) -> dict:
         #iterate through the assignments
         for i in range(1, len(assignment_list)):
             assignment_info = assignment_data[str(assignment_list[i])]
-            max_points += assignment_info[max_score_loc]
+            
+            #use assignment if it is worth points
+            if assignment_info[max_score_loc] != None:
+                max_points += assignment_info[max_score_loc]
 
-            #assignment is graded
-            if assignment_info[score_loc] != None:
-                points += assignment_info[score_loc]
-                used_max_points += assignment_info[max_score_loc]
+                #assignment is graded
+                if assignment_info[score_loc] != None:
+                    points += assignment_info[score_loc]
+                    used_max_points += assignment_info[max_score_loc]
 
-            #ungraded assignments
-            else:
-                ungraded_assignments.append(assignment_list[i])
-                assignment_weights[str(assignment_list[i])] = assignment_info[max_score_loc]
+                #ungraded assignments
+                else:
+                    ungraded_assignments.append(assignment_list[i])
+                    assignment_weights[str(assignment_list[i])] = assignment_info[max_score_loc]
 
         #Calculate assignment weights / 100
         for i in range(current_assignment, len(ungraded_assignments)):
@@ -63,21 +78,29 @@ def algo(target, assignment, group_data) -> dict:
             #calculate weight gain if score has weight
             if assignment_data[assignment][max_score_loc] != 0:
                 target_percent -= (assignment_data[assignment][score_loc] / assignment_data[assignment][max_score_loc]) * assignment_weights[assignment]
+                weight_percent_remaining -= assignment_weights[assignment]
 
             #negative scores error handling
             if assignment_data[assignment][score_loc] < 0:
                 assignment_data[assignment][score_loc] = 0
 
-        #calculate last score if it has weight
-        final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
-        if assignment_weights[final_assignment] != 0:
-            assignment_data[final_assignment][score_loc] = (math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
-        else:
-            assignment_data[final_assignment][score_loc] = 0
+        #calculate last score
+        if len(ungraded_assignments) > 0:
+            final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
+            #score has weight
+            if assignment_weights[final_assignment] != 0:
+                assignment_data[final_assignment][score_loc] = (math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
+                weight_percent_remaining -= assignment_weights[final_assignment]
+            else:
+                assignment_data[final_assignment][score_loc] = 0
 
-        #negative scores error handling
-        if assignment_data[final_assignment][score_loc] < 0:
-            assignment_data[final_assignment][score_loc] = 0
+            #negative scores error handling
+            if assignment_data[final_assignment][score_loc] < 0:
+                assignment_data[final_assignment][score_loc] = 0
+
+    #error handle weights not adding up to 100
+    if weight_percent_remaining != 0:
+        return {'error': "Group weights don't add up to 100"}
 
     #change all needed scores to 0
     else:

@@ -1,23 +1,21 @@
+from .test_util import print_title, Test, MaxTestAttemptsReached
 from lib.api.api import Canvas
 import lib.gui.gui as gui
+import os
 import random
 import toml
 
 
 def run():
-    # Feed url and token into the Canvas API.
-    my_token = toml.load('config/config.toml')['secret']['manual_token']
-    canvas = Canvas('https://canvas.oregonstate.edu', my_token)
+    print_title(os.path.basename(__file__))
 
-    # Select a random course.
-    random.seed()
-    courses = canvas.get_courses()
-    rand_course_id = courses[random.randrange(len(courses))]['id']
-
-    # Open the grade selection.
-    grade_standards = canvas.get_grading_standard_in_course(rand_course_id)
-    grade_scale = gui.grade_standard_selection(grade_standards)
+    test = Test(MAX_ATTEMPTS=10)
+    test.set_rand_course_id()
+    test.set_grade_standards()
+    grade_scale = gui.grade_standard_selection(test.gstds)
     print(f'--------------\ngrade_standard\n--------------\n{grade_scale}')
+
+    print('passed\n')
 
 
 if __name__ == '__main__':
