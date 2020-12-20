@@ -98,13 +98,13 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
             if assignment_data[final_assignment][score_loc] < 0:
                 assignment_data[final_assignment][score_loc] = 0
 
+        #error handle weights not adding up to 100
+        if weight_percent_remaining != 0:
+            return {'error': "Group weights don't add up to 100"}
+
     #change all needed scores to 0
     else:
         for i in ungraded_assignments:
             assignment_data[i][score_loc] = 0
-
-    #error handle weights not adding up to 100
-    if weight_percent_remaining != 0:
-        return {'error': "Group weights don't add up to 100"}
 
     return assignment_data
