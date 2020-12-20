@@ -1,4 +1,4 @@
-from lib.api.api import Canvas
+from lib.api import Canvas
 import random
 import toml
 

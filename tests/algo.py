@@ -1,7 +1,7 @@
 from .test_util import print_title, Test, MaxTestAttemptsReached
-from lib.algo.algo import calculate_min_grades
-from lib.api.api import Canvas
-import lib.gui.gui as gui
+from lib.algo import calculate_min_grades
+from lib.api import Canvas
+import lib.gui as gui
 import os
 import random
 import re

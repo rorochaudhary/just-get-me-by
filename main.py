@@ -1,7 +1,7 @@
 # main logic for Just Get Me By that integrates algo.py, api.py, and gui.py
-from lib.algo.algo import calculate_min_grades
-from lib.api.api import Canvas
-import lib.gui.gui as gui
+from lib.algo import calculate_min_grades
+from lib.api import Canvas
+import lib.gui as gui
 import lib.util as util
 import re
 import traceback
@@ -56,7 +56,7 @@ while True:
             confirm = sg.popup_yes_no(store_token_prompt, title='Information Storage Confirmation')
             if confirm == "Yes":
                 util.config_access(req_items['token'], req_items['canvasURL'])
-        
+
         # --------- Select Course Window (within mainloop) --------------
         course_names = []
         course_layout = gui.display_courses(course_names, requestAPI.get_courses())
