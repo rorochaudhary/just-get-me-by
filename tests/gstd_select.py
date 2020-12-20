@@ -1,6 +1,6 @@
 from .test_util import print_title, Test, MaxTestAttemptsReached
-from lib.api.api import Canvas
-import lib.gui.gui as gui
+from lib.api import Canvas
+import lib.gui as gui
 import os
 import random
 import toml

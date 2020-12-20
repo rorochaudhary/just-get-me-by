@@ -1,5 +1,5 @@
 from .test_util import print_title
-from lib.api.api import Canvas
+from lib.api import Canvas
 import os
 import random
 import toml
