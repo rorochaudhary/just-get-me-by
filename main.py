@@ -101,7 +101,7 @@ while True:
                     if calc_event in (sg.WIN_CLOSED, 'Cancel'):
                         break
                     if calc_event in ('Just Get Me By'):
-                        target_score = util.input_to_float(calc_values[0])
+                        target_score = util.input_to_float(calc_values[0], grading_scheme)
 
                         # call algo
                         results_str = ""
