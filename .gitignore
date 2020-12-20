@@ -3,3 +3,6 @@
 /config/config.yaml
 /venv/
 __pycache__/
+/build/
+/dist/
+/main.spec
