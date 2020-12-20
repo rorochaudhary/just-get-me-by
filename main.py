@@ -36,8 +36,7 @@ while True:
         req_items['canvasURL'] = proto + req_items['canvasURL'] # right place to format protocol??
         print("req_items:", req_items)
 
-        # Put Canvas information in gui
-        # get Canvas information
+        # get canvas course information
         req_err_prompt = 'Either the token or URL you entered is not valid.\nPlease try again'
         try:
             requestAPI = Canvas(req_items['canvasURL'], req_items['token'])
@@ -57,9 +56,8 @@ while True:
             confirm = sg.popup_yes_no(store_token_prompt, title='Information Storage Confirmation')
             if confirm == "Yes":
                 util.config_access(req_items['token'], req_items['canvasURL'])
-                # util.config_token(req_items['token']) # store token
-                # util.config_url(req_items['canvasURL']) # store URL
-
+        
+        # --------- Select Course Window (within mainloop) --------------
         course_names = []
         course_layout = gui.display_courses(course_names, requestAPI.get_courses())
         course_window = sg.Window('Select Course', course_layout, finalize=True)
@@ -73,7 +71,6 @@ while True:
                 # get selected course id
                 course_id = 0
                 for i in range(len(course_names)):
-                    # if course_names[i]['name'] == course_values['selected_course'][0]:
                     if course_names[i]['name'] == course_chosen:
                         course_id = course_names[i]['id']
 
