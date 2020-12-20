@@ -3,7 +3,7 @@ You’re studying hard, absorbing the material, and you are kicking butt on the 
 
 This is where Just Get Me By comes in. This is a streamlined desktop app that gathers your coursework, assignments, scores, and grades from your Canvas class(es) and tells you the minimum target scores needed on upcoming assignments in order to get that A.
 
-An entry into BeaverHacks Winter 2020 Hackathon.
+An entry into BeaverHacks Winter 2021 Hackathon.
 
 ## Getting started
 1. Download our [latest release](#INSERT RELEASE LINK)
