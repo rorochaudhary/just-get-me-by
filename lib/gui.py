@@ -98,7 +98,7 @@ def display_known_info(raw_grade_standard, assignment_dict) -> list:
     calc_layout += [sg.Text("Your current assignments:")],
     assignments_str = ""
     for key, val in assignment_dict.items():
-        assignments_str += f'{key} = {val[0]} out of {val[1]}\n'
+        assignments_str += f"{key} = {val[0] if val[0] is not None else '---'}/{val[1]}\n"
     calc_layout += [sg.Multiline(assignments_str, size=(45, 10))],
     calc_layout += [sg.Text('Your target scores needed:')],
     calc_layout += [sg.Multiline(size=(45, 10), key='algo_result')],
