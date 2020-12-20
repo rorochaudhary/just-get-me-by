@@ -54,7 +54,7 @@ while True:
         # user confirm/deny token storage
         if util.search_token()[1] == False:
             store_token_prompt = "In order to simplify future uses of Just Get Me By, do you consent to having your token and school URL stored? If not, you will have to re-enter a token and URL each time."
-            confirm = sg.popup_yes_no(store_token_prompt)
+            confirm = sg.popup_yes_no(store_token_prompt, title='Information Storage Confirmation')
             if confirm == "Yes":
                 util.config_access(req_items['token'], req_items['canvasURL'])
                 # util.config_token(req_items['token']) # store token

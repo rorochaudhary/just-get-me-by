@@ -30,7 +30,7 @@ def get_grade_scale(raw_grade_standard) -> list:
         add_layout += [sg.Text('Your course\'s current grade scale:')],
         grade_list = []
         for obj in grade_scale:
-            grade_list.append(sg.Text(f'{obj["name"]} = {obj["value"]}'))
+            grade_list.append(sg.Text('{} = {:0.2f}'.format(obj["name"], obj["value"] * 100.00)))
         add_layout += [grade_list[i] for i in range(len(grade_list))],
 
     return add_layout
