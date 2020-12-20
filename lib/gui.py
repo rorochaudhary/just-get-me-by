@@ -103,10 +103,32 @@ def display_known_info(grading_scheme, assignment_dict) -> list:
     for key, val in assignment_dict.items():
         assignments_str += f"{key} = {val[0] if val[0] is not None else '---'}/{val[1]}\n"
     calc_layout += [sg.Multiline(assignments_str, size=(45, 10))],
+    calc_layout += [sg.Button('Table Display', key='cur_assign_table')],
     calc_layout += [sg.Text('Your target scores needed:')],
     calc_layout += [sg.Multiline(size=(45, 10), key='algo_result')],
+    calc_layout += [sg.Button('Table Display', key='result_assign_table')],
 
     return calc_layout
+
+
+def get_assign_table_layout(assignment_dict: dict) -> list:
+    """Returns an assignment table layout from the passed values."""
+    columns = [
+        {'name': 'Assignment', 'width': 25},
+        {'name': 'Pts', 'width': 5},
+        {'name': 'Max', 'width': 5}
+    ]
+    header =  [
+        [sg.Text(col['name'], size=(col['width'], 1), pad=(1, 0)) for col in columns]
+    ]
+    input_rows = [
+        [sg.Input(k, size=(columns[0]['width'], 1), pad=(1, 0))] +
+        [sg.Input(v[0], size=(columns[1]['width'], 1), pad=(1, 0))] +
+        [sg.Input(v[1], size=(columns[2]['width'], 1), pad=(1, 0))]
+        for k, v in assignment_dict.items()
+    ]
+    return header + input_rows
+
 
 def grade_standard_selection(grade_standards: list) -> list:
     """Opens a new window for the user to choose one of the GradingStandards.
