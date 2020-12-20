@@ -9,18 +9,23 @@ An entry into BeaverHacks Winter 2020 Hackathon.
 1. Download *main.exe* (insert release link or link to main.exe here??)
 2. Double-click on *main.exe* to get started
 3. Give us your info!!! (Just kidding, the app doesn't send us any of your info.)
-    - Enter your school Canvas url that you regularly log in with (example: canvas.oregonstate.edu)
+    - Enter your school Canvas url that you regularly log in with (example: canvas.oregonstate.edu)<br>
     ![Enter School Canvas URL](./docs/img/input_url.jpg)
     - If you already have a generated token, enter it into the appropriate field
     ##### How to get a token:
     - Login to your school's Canvas site as you normally do.
-    - On the left vertical taskbar, click 'Account'.
+    - On the left vertical taskbar, click 'Account'.<br>
     ![Click on Account](./docs/img/account.jpg)
-    - Click Profile -> Settings.
-    - In the Approved Integrations section, click '+New Access Token'.
-    - Give a Purpose (ex. Just Get Me By) and click 'Generate Token'.
-    - Copy/Paste the Token (including the leading number and ~ sign) into the Your Canvas Token field and click Ok.
-    - For easy re-calculation even after closing the app, click Yes on the confirmation page. If you would like to re-enter your information next time, click No.
+    - Click Profile -> Settings.<br>
+    ![Click on Settings](./docs/img/profile_settings.jpg)
+    - In the Approved Integrations section, click '+New Access Token'.<br>
+    ![Click '+New Access Token](./docs/img/approved_integrations.jpg)
+    - Give a Purpose (ex. Just Get Me By) and click 'Generate Token'.<br>
+    ![Click 'Generate Token'](./docs/img/generate_token.jpg)
+    - Copy/Paste the Token (including the leading number and ~ sign) into the Your Canvas Token field and click Ok.<br>
+    ![Input the Token](./docs/img/get_token.jpg)
+    - For easy re-calculation even after closing the app, click Yes on the confirmation page. If you would like to re-enter your information next time, click No.<br>
+    ![Confirm Storage](./docs/img/get_token.jpg)
 4. Select your Course from which you need target help.
 5. Choose your target grade.
 6. Let us get you by.
