@@ -14,6 +14,18 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
     assignment_weights = {}                     #holds ungraded assignment weights
     current_assignment = 0                      #index of assignment to change the weight for
 
+    #empty assignment data
+    if not assignment_data:
+        return {'error': "No assignments found"}
+
+    #empty group data
+    if not group_data:
+        return {'error': "No group data found"}
+
+    #invalid target
+    if target_percent < 0 or target_percent > 100:
+        return {'error': "Target percent not in range 0-100"}
+
     #for each assignment group
     for group_id in group_data:
         assignment_list = group_data[group_id] #has the group weight and assignments
@@ -66,22 +78,29 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
             #calculate weight gain if score has weight
             if assignment_data[assignment][max_score_loc] != 0:
                 target_percent -= (assignment_data[assignment][score_loc] / assignment_data[assignment][max_score_loc]) * assignment_weights[assignment]
+                weight_percent_remaining -= assignment_weights[assignment]
 
             #negative scores error handling
             if assignment_data[assignment][score_loc] < 0:
                 assignment_data[assignment][score_loc] = 0
 
-        #calculate last score if it has weight
+        #calculate last score
         if len(ungraded_assignments) > 0:
             final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
+            #score has weight
             if assignment_weights[final_assignment] != 0:
                 assignment_data[final_assignment][score_loc] = (math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
+                weight_percent_remaining -= assignment_weights[final_assignment]
             else:
                 assignment_data[final_assignment][score_loc] = 0
 
             #negative scores error handling
             if assignment_data[final_assignment][score_loc] < 0:
                 assignment_data[final_assignment][score_loc] = 0
+
+    #error handle weights not adding up to 100
+    if weight_percent_remaining != 0:
+        return {'error': "Group weights don't add up to 100"}
 
     #change all needed scores to 0
     else:
