@@ -9,27 +9,30 @@ def get_main_layout() -> list:
         [sg.Button('Ok'), sg.Cancel(), sg.Button("How to get a Token")]
     ]
 
-def get_grade_scale(raw_grade_standard) -> list:
-    display_grade_scale = False
 
+def get_grading_scheme(raw_grade_standard) -> list:
+    """Returns the grading scheme for the course.
+
+    If more than one are found, will ask the user to choose.
+    """
+    # Just return
     if len(raw_grade_standard) == 1:
-        grade_scale = raw_grade_standard[0]['grading_scheme']
-        display_grade_scale = True
+        return raw_grade_standard[0]['grading_scheme']
     elif len(raw_grade_standard) > 1:
         selected_gstd = grade_standard_selection(raw_grade_standard)
         if len(selected_gstd) == 0:  # empty list returned if canceled
-            display_grade_scale = False
-        else:
-            grade_scale = selected_gstd['grading_scheme']
-            display_grade_scale = True
+            return []  # user did not choose a grade standard and canceled
+        return selected_gstd['grading_scheme']
+    return []  # no grading scheme found
 
+
+def get_add_layout(grading_scheme: list) -> list:
     add_layout = []
-
-    if display_grade_scale is True:
+    if len(grading_scheme) > 0:
         # display grading scale
         add_layout += [sg.Text('Your course\'s current grade scale:')],
         grade_list = []
-        for obj in grade_scale:
+        for obj in grading_scheme:
             grade_list.append(sg.Text('{} = {:0.2f}'.format(obj["name"], obj["value"] * 100.00)))
         add_layout += [grade_list[i] for i in range(len(grade_list))],
 
@@ -83,11 +86,11 @@ def get_assignments_and_groups(assignment_data, assignment_dict, group_data, gro
             # append assignment to group
             group_dict[assignment['assignment_group_id']].append(assignment['name'])
 
-def display_known_info(raw_grade_standard, assignment_dict) -> list:
+def display_known_info(grading_scheme, assignment_dict) -> list:
     calc_layout = []
 
     #find a grade standard to use
-    add_layout = get_grade_scale(raw_grade_standard)
+    add_layout = get_add_layout(grading_scheme)
     calc_layout += add_layout
 
     # select target grade and execute grade calc

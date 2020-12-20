@@ -90,7 +90,8 @@ while True:
 
                 #add assignment information to layout
                 raw_grade_standard = requestAPI.get_grading_standard_in_course(course_id)
-                calc_layout += gui.display_known_info(raw_grade_standard, assignment_dict)
+                grading_scheme = gui.get_grading_scheme(raw_grade_standard)
+                calc_layout += gui.display_known_info(grading_scheme, assignment_dict)
 
                 # display window
                 calc_window = sg.Window('Grade Calculator', calc_layout, finalize=True)
@@ -100,7 +101,7 @@ while True:
                     if calc_event in (sg.WIN_CLOSED, 'Cancel'):
                         break
                     if calc_event in ('Just Get Me By'):
-                        target_score = util.input_to_float(calc_values[0])
+                        target_score = util.input_to_float(calc_values[0], grading_scheme)
 
                         # call algo
                         results_str = ""
