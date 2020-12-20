@@ -29,7 +29,7 @@ An entry into BeaverHacks Winter 2020 Hackathon.
 4. Select your Course from which you need target help.<br>
 ![Select Course](./docs/img/select_course.jpg)
 5. Your instructor may have more than one grading scale used in your course. Select the one that fits your current course.
-![Select Grade Scale](./docs/img/grade_scheme.jpg)
+![Select Grade Scale](./docs/img/grading_scheme.jpg)
 6. Choose your target grade.<br>
 ![Input Target Grade](./docs/img/input_target.jpg)
 7. Target Scores on your assignments are shown at the bottom.<br>
