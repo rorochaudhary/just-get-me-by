@@ -38,14 +38,10 @@ def get_grade_scale(raw_grade_standard) -> list:
 def display_courses(course_names, courses) -> list:
     # just need course id and name
     for i in range(len(courses)):
-        # print(f"Course {i}: {courses[i]}\n")
-        # print(f'id: {courses[i]["id"]}, name: {courses[i]["name"]}')
         try:
             course_names.append({'id': courses[i]["id"], 'name': courses[i]["name"]})
         except:
             pass
-    # print(f"current courses:\n{course_names}")
-    # print([course_names[i]['name'] for i in range(len(course_names))])
 
     add_layout = [
         [sg.Listbox(values=[course_names[i]['name'] for i in range(len(course_names))], size=(75, 12), key='selected_course')],
@@ -103,7 +99,6 @@ def display_known_info(raw_grade_standard, assignment_dict) -> list:
     assignments_str = ""
     for key, val in assignment_dict.items():
         assignments_str += f'{key} = {val[0]} out of {val[1]}\n'
-    # print(assignments_str)
     calc_layout += [sg.Multiline(assignments_str, size=(45, 10))],
     calc_layout += [sg.Text('Your target scores needed:')],
     calc_layout += [sg.Multiline(size=(45, 10), key='algo_result')],
