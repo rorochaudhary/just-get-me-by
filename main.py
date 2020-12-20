@@ -96,10 +96,17 @@ while True:
                 # display window
                 calc_window = sg.Window('Grade Calculator', calc_layout, finalize=True)
 
+                # create results variable for use in multiple events
+                results = {}
+
                 while True:
                     calc_event, calc_values = calc_window.read()
                     if calc_event in (sg.WIN_CLOSED, 'Cancel'):
                         break
+                    if calc_event in ('cur_assign_table'):
+                        ca_layout = gui.get_assign_table_layout(assignment_dict)
+                        ca_window = sg.Window('Current Assignments', ca_layout)
+                        ca_ev, ca_va = ca_window.read()
                     if calc_event in ('Just Get Me By'):
                         target_score = util.input_to_float(calc_values[0], grading_scheme)
 
@@ -116,6 +123,14 @@ while True:
                                 for key, value in results.items():
                                     results_str += f"{key} = {value[0] if value[0] is not None else '---'} out of {value[1]}\n"
                         calc_window['algo_result'].update(results_str)
+                    if (
+                        calc_event in ('result_assign_table') and
+                        len(results) != 0  and
+                        'error' not in results
+                    ):
+                        res_a_layout = gui.get_assign_table_layout(results)
+                        res_a_window = sg.Window('Target Scores', res_a_layout)
+                        res_a_ev, res_a_va = res_a_window.read()
 
                 calc_window.close()
         course_window.close()
