@@ -37,7 +37,7 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
         #iterate through the assignments
         for i in range(1, len(assignment_list)):
             assignment_info = assignment_data[str(assignment_list[i])]
-            
+
             #use assignment if it is worth points
             if assignment_info[max_score_loc] != None:
                 max_points += assignment_info[max_score_loc]
@@ -73,7 +73,7 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
         average_percent = float(target_percent / weight_percent_remaining)
         for i in range(0, len(ungraded_assignments) - 1):
             assignment = ungraded_assignments[i]
-            assignment_data[assignment][score_loc] = math.ceil(assignment_data[assignment][max_score_loc] * average_percent)
+            assignment_data[assignment][score_loc] = float(math.ceil(assignment_data[assignment][max_score_loc] * average_percent))
 
             #calculate weight gain if score has weight
             if assignment_data[assignment][max_score_loc] != 0:
@@ -89,7 +89,7 @@ def calculate_min_grades(target: float, assignment: list, group_data: list) -> d
             final_assignment = ungraded_assignments[len(ungraded_assignments) - 1]
             #score has weight
             if assignment_weights[final_assignment] != 0:
-                assignment_data[final_assignment][score_loc] = (math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
+                assignment_data[final_assignment][score_loc] = float(math.ceil((target_percent / assignment_weights[final_assignment]) * assignment_data[final_assignment][max_score_loc]))
                 weight_percent_remaining -= assignment_weights[final_assignment]
             else:
                 assignment_data[final_assignment][score_loc] = 0
